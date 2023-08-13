@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <grid version="3">
+    <saveoptions create="False" position="False" content="True"/>
+    <content>
+      <cells cellcount="7">
+        <cell1 column="0" row="0" text="Base"/>
+        <cell2 column="0" row="1" text="A"/>
+        <cell3 column="0" row="2" text="C"/>
+        <cell4 column="0" row="3" text="G"/>
+        <cell5 column="0" row="4" text="T/U"/>
+        <cell6 column="1" row="0" text="Count"/>
+        <cell7 column="2" row="0" text="Percentage"/>
+      </cells>
+    </content>
+  </grid>
+</CONFIG>
