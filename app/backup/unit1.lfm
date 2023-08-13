@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 244
+  Left = 1401
   Height = 800
-  Top = 248
+  Top = 104
   Width = 1000
   BorderStyle = bsSingle
   Caption = 'Form1'
@@ -10,11 +10,11 @@ object Form1: TForm1
   LCLVersion = '2.0.10.0'
   object Button1: TButton
     Left = 88
-    Height = 33
+    Height = 48
     Top = 608
-    Width = 67
+    Width = 100
     Anchors = []
-    Caption = 'Button1'
+    Caption = 'OK'
     OnClick = Button1Click
     TabOrder = 0
   end
@@ -78,13 +78,13 @@ object Form1: TForm1
       'A'
       0
       2
-      'C'
+      'T/U'
       0
       3
       'G'
       0
       4
-      'T/U'
+      'C'
       0
       5
       'Other'
@@ -168,5 +168,14 @@ object Form1: TForm1
     Font.Height = -19
     ParentColor = False
     ParentFont = False
+  end
+  object Button2: TButton
+    Left = 298
+    Height = 50
+    Top = 608
+    Width = 100
+    Caption = 'Clear'
+    OnClick = Button2Click
+    TabOrder = 5
   end
 end
