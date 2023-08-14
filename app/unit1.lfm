@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 1401
+  Left = 1364
   Height = 800
-  Top = 104
+  Top = 106
   Width = 1000
   BorderStyle = bsSingle
   Caption = 'Form1'
@@ -54,9 +54,9 @@ object Form1: TForm1
   end
   object StringGrid1: TStringGrid
     Left = 88
-    Height = 160
+    Height = 152
     Top = 360
-    Width = 310
+    Width = 312
     AutoFillColumns = True
     ColCount = 3
     DefaultColWidth = 64
@@ -65,8 +65,8 @@ object Form1: TForm1
     TabOrder = 3
     ColWidths = (
       100
-      104
-      104
+      105
+      105
     )
     Cells = (
       8
