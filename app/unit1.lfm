@@ -1,30 +1,28 @@
 object Form1: TForm1
-  Left = 1364
-  Height = 800
-  Top = 106
-  Width = 1000
+  Left = 15
+  Height = 563
+  Top = 61
+  Width = 994
   BorderStyle = bsSingle
   Caption = 'Form1'
-  ClientHeight = 800
-  ClientWidth = 1000
+  ClientHeight = 563
+  ClientWidth = 994
   LCLVersion = '2.0.10.0'
   object Button1: TButton
-    Left = 88
+    Left = 40
     Height = 48
-    Top = 608
+    Top = 488
     Width = 100
-    Anchors = []
     Caption = 'OK'
     OnClick = Button1Click
     TabOrder = 0
   end
   object Label1: TLabel
-    Left = 88
-    Height = 21
-    Top = 328
-    Width = 112
+    Left = 40
+    Height = 20
+    Top = 256
+    Width = 102
     Alignment = taCenter
-    Anchors = []
     Caption = 'GC content:'
     Font.Height = -19
     ParentColor = False
@@ -32,10 +30,9 @@ object Form1: TForm1
   end
   object Memo1: TMemo
     Left = 496
-    Height = 424
-    Top = 96
+    Height = 473
+    Top = 63
     Width = 456
-    Anchors = []
     Font.Height = -15
     Lines.Strings = (
       ''
@@ -46,17 +43,17 @@ object Form1: TForm1
     TabOrder = 1
   end
   object Edit1: TEdit
-    Left = 88
-    Height = 33
+    Left = 40
+    Height = 27
     Top = 208
     Width = 192
     TabOrder = 2
   end
   object StringGrid1: TStringGrid
-    Left = 88
-    Height = 152
-    Top = 360
-    Width = 312
+    Left = 40
+    Height = 144
+    Top = 320
+    Width = 376
     AutoFillColumns = True
     ColCount = 3
     DefaultColWidth = 64
@@ -65,8 +62,8 @@ object Form1: TForm1
     TabOrder = 3
     ColWidths = (
       100
-      105
-      105
+      137
+      137
     )
     Cells = (
       8
@@ -97,9 +94,9 @@ object Form1: TForm1
     )
   end
   object RadioGroup1: TRadioGroup
-    Left = 88
+    Left = 40
     Height = 91
-    Top = 61
+    Top = 63
     Width = 192
     AutoFill = True
     Caption = 'Select input'
@@ -110,7 +107,7 @@ object Form1: TForm1
     ChildSizing.ShrinkVertical = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 1
-    ClientHeight = 73
+    ClientHeight = 74
     ClientWidth = 190
     ParentFont = False
     TabOrder = 4
@@ -127,7 +124,7 @@ object Form1: TForm1
     end
     object RadioButton2: TRadioButton
       Left = 6
-      Height = 36
+      Height = 37
       Top = 37
       Width = 178
       Caption = 'From the text'
@@ -136,43 +133,43 @@ object Form1: TForm1
     end
   end
   object Label2: TLabel
-    Left = 88
-    Height = 15
-    Top = 175
-    Width = 179
+    Left = 40
+    Height = 14
+    Top = 176
+    Width = 165
     Caption = 'Number of characters total:'
     ParentColor = False
   end
   object Label3: TLabel
-    Left = 88
-    Height = 15
-    Top = 304
-    Width = 52
+    Left = 40
+    Height = 14
+    Top = 296
+    Width = 47
     Caption = 'Results:'
     ParentColor = False
   end
   object Label4: TLabel
     Left = 496
-    Height = 15
+    Height = 14
     Top = 61
-    Width = 31
+    Width = 29
     Caption = 'Text:'
     ParentColor = False
   end
   object Label5: TLabel
-    Left = 213
-    Height = 21
-    Top = 328
-    Width = 54
+    Left = 185
+    Height = 20
+    Top = 256
+    Width = 47
     Caption = '0.0 %'
     Font.Height = -19
     ParentColor = False
     ParentFont = False
   end
   object Button2: TButton
-    Left = 298
+    Left = 316
     Height = 50
-    Top = 608
+    Top = 486
     Width = 100
     Caption = 'Clear'
     OnClick = Button2Click
