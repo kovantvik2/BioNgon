@@ -9,3 +9,8 @@ lib/
 /lib/
 .lib
 
+.target
+/target
+/target/
+target
+
