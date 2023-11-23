@@ -67,6 +67,19 @@ int main() {
     printf("Other characters - %ld\n", length_dna - length_ATGCU);
     printf("Number of GC content in characters - %ld\n", gc_content);
     printf("Number of GC content in percent - %0.2f%\n", gc_content_percent);
+    //f = fopen("../Test files/output.dat", "r");
+
+    for (int i = 0; i < NUMBER_OF_NUCLEOTIDES; i++) {
+        if (array_number_of_nucleotides[i] > 0) {
+            fprintf(output, "%c %ld %0.2f\n", (char) array_of_nucleotides[i], array_number_of_nucleotides[i], array_percent_of_nucleotides[i]);
+        }
+
+
+
+    system("gnuplot plot_script.gp");
+    //fclose(f);
+}
+
 
     return 0;
 }

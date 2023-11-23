@@ -22,3 +22,4 @@ void percent_nucl(float *array_percent_of_nucleotides, \
                                             / (float)(*length_dna)) * 100;
     }
 }
+
