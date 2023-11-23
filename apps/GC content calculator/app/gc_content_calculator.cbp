@@ -34,6 +34,10 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="nucleotide_functions.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="nucleotide_functions.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

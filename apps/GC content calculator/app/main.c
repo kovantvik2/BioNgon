@@ -22,7 +22,7 @@ int main() {
     float array_percent_of_nucleotides[NUMBER_OF_NUCLEOTIDES] = {0.0, 0.0, 0.0, 0.0, 0.0};
     FILE *f;
 
-    f = fopen("/home/pittchai/DEV/Bio/apps/GC content calculator/Test files/TEST_DNA", "r");
+    f = fopen("../Test files/TEST_DNA", "r");
     if (f == NULL) {
         printf("Error opening file\n");
         return 1;
