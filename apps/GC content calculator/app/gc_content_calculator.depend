@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1700733701 source:/home/pittchai/DEV/Bio/apps/GC content calculator/app/main.c
+	<stdio.h>
+	<stdlib.h>
+	"nucleotide_functions.h"
+
+1700733659 /home/pittchai/DEV/Bio/apps/GC content calculator/app/nucleotide_functions.h
+
+1700733781 source:/home/pittchai/DEV/Bio/apps/GC content calculator/app/nucleotide_functions.c
+
