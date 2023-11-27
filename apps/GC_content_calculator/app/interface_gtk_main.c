@@ -1,8 +1,11 @@
 #include <gtk/gtk.h>
 
+int check_elem_interface(GObject *element, char *main_window_name); // Checking for the absence of an interface element
+
 void run_interface_gtk_main(int argc, char *argv[])
 {   // Run interface GTK (main interface)
 
+    char main_window_name[] = "main_application_window";
     gtk_init(&argc, &argv);
 
     GtkBuilder *builder = gtk_builder_new();
@@ -10,12 +13,9 @@ void run_interface_gtk_main(int argc, char *argv[])
     gtk_builder_add_from_file(builder, "../interface/interface_ru.glade", NULL);
 
     // Get a pointer to the top level of the window
-    GObject *window = gtk_builder_get_object(builder, "main_application_window");
+    GObject *window = gtk_builder_get_object(builder, main_window_name);
 
-    if (window == NULL) {
-        g_error("The 'main_application_window' object could not be found in the interface file.");
-        return 1;
-    }
+    check_elem_interface(window, &main_window_name);
 
     // Convert GObject to GtkWidget
     GtkWidget *main_window = GTK_WIDGET(window);
@@ -30,6 +30,18 @@ void run_interface_gtk_main(int argc, char *argv[])
     gtk_main();
 }
 
+
+int check_elem_interface(GObject *element, char *window_name)
+{   // Checking for the absence of an interface element
+
+    if (element == NULL) {
+        g_error(
+            "The '%s' object could not be found in the interface file.",
+            window_name
+        );
+        return 1;
+    }
+}
 
 // Получите указатель на GtkTextView
     //GtkWidget *text_view = GTK_WIDGET(gtk_builder_get_object(builder, "your_text_view_name"));
