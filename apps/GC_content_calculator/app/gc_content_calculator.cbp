@@ -31,6 +31,13 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="interface_gtk.h" />
+		<Unit filename="interface_gtk_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="interface_gtk_second.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
