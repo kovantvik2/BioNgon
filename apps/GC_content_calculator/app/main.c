@@ -5,6 +5,7 @@
 
 #define BUFFER_SIZE 8192 // Buffer size
 #define NUMBER_OF_NUCLEOTIDES 5 // Number of nucleotides
+#define FILENAME_SIZE 512
 
 
 
@@ -17,15 +18,17 @@ int main(int argc, char *argv[])
     int array_of_nucleotides[NUMBER_OF_NUCLEOTIDES] = {65, 85, 71, 67, 84}; // ASCII codes 'A', 'U', 'G', 'C', 'T'
     long int array_number_of_nucleotides[NUMBER_OF_NUCLEOTIDES] = {0, 0, 0, 0, 0};
     float array_percent_of_nucleotides[NUMBER_OF_NUCLEOTIDES] = {0.0, 0.0, 0.0, 0.0, 0.0};
+    //char filename[FILENAME_SIZE];
+    char *filename = NULL;
     FILE *file;
 
-    file = fopen("../Test files/TEST_DNA", "r");
+    run_interface_gtk_main(argc, &argv, &filename);
+    printf("Selected File: %s\n", filename);
+    file = fopen(filename, "r");
     if (file == NULL) {
         printf("Error opening file\n");
         return 1;
     }
-
-    run_interface_gtk_main(argc, &argv);
 
     char buffer[BUFFER_SIZE];
     size_t bytesRead;
