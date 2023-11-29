@@ -31,13 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="interface_gtk.h" />
-		<Unit filename="interface_gtk_main.c">
+		<Unit filename="interface_functions.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="interface_gtk_second.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="interface_functions.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -45,6 +42,11 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="nucleotide_functions.h" />
+		<Unit filename="structures.h" />
+		<Unit filename="util.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="util.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

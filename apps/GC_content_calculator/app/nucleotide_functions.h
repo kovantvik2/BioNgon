@@ -1,3 +1,5 @@
+#include <gtk/gtk.h>
+#include "structures.h"
 #ifndef NUCLEOTIDE_FUNCTIONS_H_INCLUDED
 #define NUCLEOTIDE_FUNCTIONS_H_INCLUDED
 
@@ -17,10 +19,12 @@ void percent_nucl(
 
 
 void count_dna(
-    char *buffer, size_t *bytesRead, FILE *file,
+    char *buffer, size_t *bytesRead, TObject *text_struct,
     int *length_dna, int *length_ATGCU,
     int *array_number_of_nucleotides,
     int *array_of_nucleotides
 ); // Counting dna
+
+void read_file(GtkWidget *widget, TObject **text_struct); // Read file
 
 #endif // NUCLEOTIDE_FUNCTIONS_H_INCLUDED
