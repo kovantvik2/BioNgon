@@ -3,22 +3,13 @@
 #include "interface_functions.h"
 #include "nucleotide_functions.h"
 #include "structures.h"
-
-#define BUFFER_SIZE 8192 // BufferBuffer size
-
-
+#include "util.h"
 
 
 int main(int argc, char *argv[])
 {
-    long int length_dna = 0;
-    long int length_ATGCU = 0;
-    long int gc_content = 0;
-    float gc_content_percent = 0.0;
-    int array_of_nucleotides[NUMBER_OF_NUCLEOTIDES] = {65, 85, 71, 67, 84}; // ASCII codes 'A', 'U', 'G', 'C', 'T'
-    long int array_number_of_nucleotides[NUMBER_OF_NUCLEOTIDES] = {0, 0, 0, 0, 0};
-    float array_percent_of_nucleotides[NUMBER_OF_NUCLEOTIDES] = {0.0, 0.0, 0.0, 0.0, 0.0};
     TObject text_struct;
+    init_struct(&text_struct);
 
     gtk_init(&argc, &argv);
     GtkBuilder *builder = gtk_builder_new();
@@ -68,7 +59,7 @@ int main(int argc, char *argv[])
     );
     GtkWidget *button_run = GTK_WIDGET(button_run_object);
     g_signal_connect(
-        button_run, "activate",
+        button_run, "clicked",
         G_CALLBACK(read_file), &text_struct
     );
 
@@ -86,52 +77,6 @@ int main(int argc, char *argv[])
         button_menu_open_file, "activate",
         G_CALLBACK(open_file), &text_struct
     );
-
-    if (text_struct.file == NULL) {
-        printf("Error opening file\n");
-        return 1;
-    }
-    /*else {
-        char buffer[BUFFER_SIZE];
-        size_t bytesRead;
-
-        count_dna(
-            &buffer, &bytesRead, &text_struct,
-            &length_dna, &length_ATGCU,
-            &array_number_of_nucleotides,
-            &array_of_nucleotides
-        );
-
-        percent_nucl(
-            &array_percent_of_nucleotides,
-            &array_number_of_nucleotides,
-            &length_dna
-        );
-
-        for (int i = 0; i < NUMBER_OF_NUCLEOTIDES; i++) {
-            if (array_number_of_nucleotides[i] > 0) {
-                printf("%c - %ld - %0.2f%\n",
-                    (char) array_of_nucleotides[i],
-                    array_number_of_nucleotides[i],
-                    array_percent_of_nucleotides[i]
-                );
-            }
-        }
-
-        gc_percent(
-            &array_number_of_nucleotides,
-            &gc_content_percent, &length_dna,
-            &gc_content
-        );
-
-        printf("Total number of characters - %ld\n", length_dna);
-        printf("Number of ATGCU - %ld\n", length_ATGCU);
-        printf("Other characters - %ld\n", length_dna - length_ATGCU);
-        printf("Number of GC content in characters - %ld\n", gc_content);
-        printf("Number of GC content in percent - %0.2f%\n", gc_content_percent);
-    }*/
-
-
 
     // Start the GTK event loop
     gtk_main();

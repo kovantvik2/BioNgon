@@ -211,12 +211,12 @@
             <property name="layout-style">center</property>
             <child>
               <object class="GtkButton" id="first_gtk_button_main_window">
-                <property name="label" translatable="yes">Начать</property>
+                <property name="label" translatable="yes">Обработать</property>
                 <property name="name">first_gtk_button_main_window</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Начать</property>
+                <property name="tooltip-text" translatable="yes">Обработать выбранный файл</property>
               </object>
               <packing>
                 <property name="expand">True</property>

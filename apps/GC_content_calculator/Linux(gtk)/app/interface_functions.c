@@ -41,13 +41,17 @@ void open_file(GtkWidget *widget, TObject *text_struct)
     res = gtk_dialog_run(GTK_DIALOG(dialog));
     if (res == GTK_RESPONSE_ACCEPT) {
         GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
-        text_struct->filename = g_strdup(gtk_file_chooser_get_filename(chooser));
+        text_struct->filename = g_strdup(
+            gtk_file_chooser_get_filename(chooser)
+        );
         if (text_struct->filename == NULL) {
             g_error("File selection error - '%s'\n", text_struct->filename);
             return 1;
         }
     }
-    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_struct->text_field));
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(
+        GTK_TEXT_VIEW(text_struct->text_field)
+    );
     gtk_text_buffer_set_text(buffer, "", -1);
     gtk_text_buffer_insert_at_cursor(buffer, "Selected File:\n", -1);
     gtk_text_buffer_insert_at_cursor(buffer, text_struct->filename, -1);
