@@ -42,8 +42,7 @@ void read_file(GtkWidget *widget, TObject *text_struct)
             buffer, g_strdup_printf(
                 "Total number of characters - %ld\n",
                 text_struct->length_dna
-            ),
-        -1);
+            ), -1);
         gtk_text_buffer_insert_at_cursor(
             buffer, g_strdup_printf(
                 "Number of ATGCU - %ld\n",
@@ -118,8 +117,7 @@ void count_dna(TObject *text_struct)
 
     while ((text_struct->bytesRead = fread(
         text_struct->buffer, 1, sizeof(text_struct->buffer),
-        text_struct->file
-    )) > 0) {
+        text_struct->file)) > 0) {
         for (size_t i = 0; i < text_struct->bytesRead; i++) {
             if (text_struct->buffer[i] > 64 && text_struct->buffer[i] < 91) {
                 (text_struct->length_dna)++;
