@@ -27,15 +27,10 @@
     <property name="can-focus">False</property>
     <property name="stock">gtk-about</property>
   </object>
-  <object class="GtkImage" id="image6">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="stock">gtk-execute</property>
-  </object>
   <object class="GtkWindow" id="main_application_window">
     <property name="name">main_application_window</property>
     <property name="can-focus">False</property>
-    <property name="tooltip-text" translatable="yes">Калькулятор содержимого GC</property>
+    <property name="tooltip-text" translatable="yes">GC content calculator</property>
     <property name="resizable">False</property>
     <property name="window-position">mouse</property>
     <property name="default-width">600</property>
@@ -52,28 +47,26 @@
             <property name="name">first_gtk_menu_bar_main_window</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="tooltip-text" translatable="yes">Меню</property>
             <child>
               <object class="GtkMenuItem" id="first_gtk_menu_file_item_main_window">
                 <property name="name">first_gtk_menu_file_item_main_window</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="tooltip-text" translatable="yes">Открыть, сохранить, выйти из программы.</property>
-                <property name="label" translatable="yes">_Файл</property>
+                <property name="label" translatable="yes">_Files</property>
                 <property name="use-underline">True</property>
                 <child type="submenu">
                   <object class="GtkMenu" id="first_gtk_sumenu_file_item_main_window">
                     <property name="name">first_gtk_menu_file_item_main_window</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="tooltip-text" translatable="yes">Подменю</property>
+                    <property name="tooltip-text" translatable="yes">Sumenu</property>
                     <child>
-                      <object class="GtkImageMenuItem" id="first_gtk_image_menu_item_file">
-                        <property name="label">_Открыть</property>
-                        <property name="name">first_gtk_image_menu_item_file</property>
+                      <object class="GtkImageMenuItem" id="fiirst_gtk_image_menu_item_file">
+                        <property name="label">_Open</property>
+                        <property name="name">fiirst_gtk_image_menu_item_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Открыть</property>
+                        <property name="tooltip-text" translatable="yes">Open file</property>
                         <property name="use-underline">True</property>
                         <property name="image">image1</property>
                         <property name="use-stock">False</property>
@@ -81,11 +74,11 @@
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="second_gtk_image_menu_item_file">
-                        <property name="label">_Сохранить</property>
+                        <property name="label">_Save</property>
                         <property name="name">second_gtk_image_menu_item_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Сохранить</property>
+                        <property name="tooltip-text" translatable="yes">Save file</property>
                         <property name="use-underline">True</property>
                         <property name="image">image2</property>
                         <property name="use-stock">False</property>
@@ -93,11 +86,11 @@
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="third_gtk_image_menu_item_file">
-                        <property name="label">_Сохранить как</property>
+                        <property name="label">_Save as</property>
                         <property name="name">third_gtk_image_menu_item_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Сохранить как</property>
+                        <property name="tooltip-text" translatable="yes">Save as</property>
                         <property name="use-underline">True</property>
                         <property name="image">image3</property>
                         <property name="use-stock">False</property>
@@ -108,28 +101,16 @@
                         <property name="name">first_gtk_separator_menu_item_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Разделитель</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkImageMenuItem" id="fifth_gtk_image_menu_item_file1">
-                        <property name="label">_Выбрать язык</property>
-                        <property name="name">fifth_gtk_image_menu_item_file</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Открыть</property>
-                        <property name="use-underline">True</property>
-                        <property name="image">image6</property>
-                        <property name="use-stock">False</property>
+                        <property name="tooltip-text" translatable="yes">Separator</property>
                       </object>
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="fourth_gtk_image_menu_item_file">
-                        <property name="label">_Выход</property>
+                        <property name="label">_Exit</property>
                         <property name="name">fourth_gtk_image_menu_item_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Выход</property>
+                        <property name="tooltip-text" translatable="yes">Exit</property>
                         <property name="use-underline">True</property>
                         <property name="image">image4</property>
                         <property name="use-stock">False</property>
@@ -144,22 +125,22 @@
                 <property name="name">first_gtk_menu_othe_item_main_window</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="tooltip-text" translatable="yes">Справка</property>
-                <property name="label" translatable="yes">_Справка</property>
+                <property name="tooltip-text" translatable="yes">Other menu item</property>
+                <property name="label" translatable="yes">_Other</property>
                 <property name="use-underline">True</property>
                 <child type="submenu">
                   <object class="GtkMenu" id="first_gtk_menu_other_item_main_window">
                     <property name="name">first_gtk_menu_other_item_main_window</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="tooltip-text" translatable="yes">Подменю</property>
+                    <property name="tooltip-text" translatable="yes">Sumenu</property>
                     <child>
                       <object class="GtkImageMenuItem" id="fifth_gtk_image_menu_item_file">
-                        <property name="label">_О программе</property>
+                        <property name="label">_About</property>
                         <property name="name">fifth_gtk_image_menu_item_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">О программе</property>
+                        <property name="tooltip-text" translatable="yes">About</property>
                         <property name="use-underline">True</property>
                         <property name="image">image5</property>
                         <property name="use-stock">False</property>
@@ -181,15 +162,13 @@
             <property name="name">first_gtk_scrolled_main_window</property>
             <property name="visible">True</property>
             <property name="can-focus">True</property>
-            <property name="tooltip-text" translatable="yes">Скроллер</property>
             <property name="shadow-type">in</property>
             <child>
               <object class="GtkTextView" id="first_gtk_text_view_main_window">
                 <property name="name">first_gtk_text_view_main_window</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="tooltip-text" translatable="yes">Текстовое поле</property>
-                <property name="editable">False</property>
+                <property name="tooltip-text" translatable="yes">Text field</property>
                 <property name="wrap-mode">word-char</property>
                 <property name="monospace">True</property>
               </object>
@@ -206,32 +185,18 @@
             <property name="name">first_gtk_button_box_main_window</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="tooltip-text" translatable="yes">Button box</property>
             <property name="spacing">70</property>
             <property name="homogeneous">True</property>
             <property name="layout-style">center</property>
             <child>
               <object class="GtkButton" id="first_gtk_button_main_window">
-                <property name="label" translatable="yes">Обработать</property>
+                <property name="label" translatable="yes">Run</property>
                 <property name="name">first_gtk_button_main_window</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Обработать выбранный файл</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="second_gtk_button_main_window">
-                <property name="label" translatable="yes">Выгрузить в файл</property>
-                <property name="name">second_gtk_button_main_window</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Выгрузить данные в текстовый файл</property>
+                <property name="tooltip-text" translatable="yes">Counting Nucleotides</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -240,13 +205,13 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="third_gtk_button_main_window">
-                <property name="label" translatable="yes">Выход</property>
-                <property name="name">third_gtk_button_main_window</property>
+              <object class="GtkButton" id="second_gtk_button_main_window">
+                <property name="label" translatable="yes">Upload to DB</property>
+                <property name="name">second_gtk_button_main_window</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Выход из программы</property>
+                <property name="tooltip-text" translatable="yes">Upload the counting data to a file</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -254,11 +219,26 @@
                 <property name="position">2</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkButton" id="third_gtk_button_main_window">
+                <property name="label" translatable="yes">Exit</property>
+                <property name="name">third_gtk_button_main_window</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Exiting the program</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">4</property>
+            <property name="position">3</property>
           </packing>
         </child>
       </object>
@@ -266,7 +246,6 @@
   </object>
   <object class="GtkDialog" id="second_application_window">
     <property name="can-focus">False</property>
-    <property name="tooltip-text" translatable="yes">Выбор языка</property>
     <property name="resizable">False</property>
     <property name="default-width">350</property>
     <property name="default-height">250</property>
@@ -281,6 +260,7 @@
           <object class="GtkButtonBox" id="first_gtk_button_box_second_window">
             <property name="name">first_gtk_button_box_second_window</property>
             <property name="can-focus">False</property>
+            <property name="tooltip-text" translatable="yes">Button box</property>
             <property name="layout-style">end</property>
             <child>
               <object class="GtkButton" id="first_gtk_button_second_window">
@@ -309,6 +289,7 @@
             <property name="name">second_gtk_box_second_window</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="tooltip-text" translatable="yes">Second gtk box</property>
             <property name="orientation">vertical</property>
             <property name="spacing">21</property>
             <property name="homogeneous">True</property>
@@ -319,7 +300,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
-                <property name="tooltip-text" translatable="yes">Русский язык</property>
+                <property name="tooltip-text" translatable="yes">Russian</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="active">True</property>
@@ -338,7 +319,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
-                <property name="tooltip-text" translatable="yes">Английский язык</property>
+                <property name="tooltip-text" translatable="yes">English</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="active">True</property>

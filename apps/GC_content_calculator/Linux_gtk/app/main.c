@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
     gtk_init(&argc, &argv);
     GtkBuilder *builder = gtk_builder_new();
-    gtk_builder_add_from_file(builder, "../interface/interface_ru.glade", NULL);
+    gtk_builder_add_from_file(builder, "../interface/interface_en.glade", NULL);
 
     // Processing the main window call
     char main_window_name[] = "main_application_window";
@@ -78,20 +78,23 @@ int main(int argc, char *argv[])
         G_CALLBACK(open_file), &text_struct
     );
 
+    //
+    char button_menu_save_as_file_name[] = "third_gtk_image_menu_item_file";
+    GObject *button_menu_object_save_as_file = (
+        gtk_builder_get_object(builder, button_menu_save_as_file_name)
+    );
+    check_elem_interface(
+        button_menu_object_save_as_file,
+        &button_menu_save_as_file_name
+    );
+    GtkWidget *button_menu_save_as_file = GTK_WIDGET(button_menu_object_save_as_file);
+    g_signal_connect(
+        button_menu_save_as_file, "activate",
+        G_CALLBACK(save_as_file), &text_struct
+    );
+
     // Start the GTK event loop
     gtk_main();
-
-
-
-
-
-    /*for (int i = 0; i < NUMBER_OF_NUCLEOTIDES; i++) {
-        if (array_number_of_nucleotides[i] > 0) {
-            fprintf(output, "%c %ld %0.2f\n", (char) array_of_nucleotides[i], \
-                    array_number_of_nucleotides[i], array_percent_of_nucleotides[i]);
-        }
-    } */
-
 
     return 0;
 }

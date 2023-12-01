@@ -18,6 +18,8 @@ typedef struct SObject {
     float array_percent_of_nucleotides[NUMBER_OF_NUCLEOTIDES];
     size_t bytesRead;
     char buffer[BUFFER_SIZE];
+    char *filename_save_as;
+    char *file_write_data;
 } TObject;
 
 #endif // STRUCTURES_H_INCLUDED

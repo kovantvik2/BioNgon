@@ -12,4 +12,7 @@ void exit_the_program(GtkWidget *main_window);
 // Open the data file
 void open_file(GtkWidget *widget, TObject **text_struct);
 
+// Save as
+void save_as_file(GtkWidget *widget, TObject *text_struct);
+
 #endif // INTERFACE_GTK_H_INCLUDED
