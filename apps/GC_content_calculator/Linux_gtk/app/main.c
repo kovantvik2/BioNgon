@@ -2,12 +2,16 @@
 #include <stdlib.h>
 #include "interface_functions.h"
 #include "nucleotide_functions.h"
+#include "sqlite3.h"
 #include "structures.h"
 #include "util.h"
+#include "DB.h"
+
 
 
 int main(int argc, char *argv[])
 {
+    create_db();
     TObject text_struct;
     init_struct(&text_struct);
     text_struct.check_txt_field = 0;
@@ -87,7 +91,7 @@ int main(int argc, char *argv[])
         G_CALLBACK(open_file), &text_struct
     );
 
-    //
+    // Save file
     char button_menu_save_file_name[] = "third_gtk_image_menu_item_file";
     GObject *button_menu_object_save_file = (
         gtk_builder_get_object(builder, button_menu_save_file_name)
@@ -100,6 +104,21 @@ int main(int argc, char *argv[])
     g_signal_connect(
         button_menu_save_file, "activate",
         G_CALLBACK(save_file), &text_struct
+    );
+
+    //
+    char button_menu_exit_name[] = "fourth_gtk_image_menu_item_file";
+    GObject *button_menu_exit_object = (
+        gtk_builder_get_object(builder, button_menu_exit_name)
+    );
+    check_elem_interface(
+        button_menu_exit_object,
+        &button_menu_exit_name
+    );
+    GtkWidget *button_menu_exit = GTK_WIDGET(button_menu_exit_object);
+    g_signal_connect(
+        button_menu_exit, "activate",
+        G_CALLBACK(exit_the_window), &text_struct
     );
 
     // Start the GTK event loop

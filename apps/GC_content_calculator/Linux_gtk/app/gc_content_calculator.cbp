@@ -31,6 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="DB.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="DB.h" />
 		<Unit filename="interface_functions.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -42,6 +46,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="nucleotide_functions.h" />
+		<Unit filename="sqlite3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sqlite3.h" />
 		<Unit filename="structures.h" />
 		<Unit filename="util.c">
 			<Option compilerVar="CC" />
