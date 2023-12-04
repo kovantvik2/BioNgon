@@ -70,18 +70,11 @@ void read_file(GtkWidget *widget, TObject *text_struct)
         -1);
         fclose(text_struct->file);
         init_struct(text_struct);
+        text_struct->check_txt_field = 1;
     }
     else if (text_struct->filename == NULL) {
-        GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_struct->text_field));
-        gtk_text_buffer_set_text(
-            buffer, (
-                "No file is selected.\n"
-                "Select and open the file, \n"
-                "then click this button and the result \n"
-                "will be displayed in this text field."
-            ),
-        -1);
-        gtk_text_buffer_insert_at_cursor(buffer, "", -1);
+        char error_read_file[] = "No file is selected.";
+        error_message(&error_read_file);
     }
 }
 

@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
 {
     TObject text_struct;
     init_struct(&text_struct);
+    text_struct.check_txt_field = 0;
 
     gtk_init(&argc, &argv);
     GtkBuilder *builder = gtk_builder_new();
@@ -17,10 +18,18 @@ int main(int argc, char *argv[])
 
     // Processing the main window call
     char main_window_name[] = "main_application_window";
-    GObject *window = gtk_builder_get_object(builder, main_window_name);
+    GObject *window = gtk_builder_get_object(
+        builder, main_window_name
+    );
     check_elem_interface(window, &main_window_name);
     GtkWidget *main_window = GTK_WIDGET(window);
-    g_signal_connect(main_window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+
+    char main_window_title[] = "GC Content Calculator";
+    gtk_window_set_title(GTK_WINDOW(main_window), main_window_title);
+
+    g_signal_connect(
+        main_window, "destroy", G_CALLBACK(gtk_main_quit), NULL
+    );
     gtk_widget_show_all(main_window);
 
     char text_field_name[] = "first_gtk_text_view_main_window";
@@ -45,7 +54,7 @@ int main(int argc, char *argv[])
     GtkWidget *button_exit_the_program = GTK_WIDGET(button_object_exit_the_program);
     g_signal_connect(
         button_exit_the_program, "clicked",
-        G_CALLBACK(exit_the_program), main_window
+        G_CALLBACK(exit_the_window), main_window
     );
 
     // Start counting
@@ -79,18 +88,18 @@ int main(int argc, char *argv[])
     );
 
     //
-    char button_menu_save_as_file_name[] = "third_gtk_image_menu_item_file";
-    GObject *button_menu_object_save_as_file = (
-        gtk_builder_get_object(builder, button_menu_save_as_file_name)
+    char button_menu_save_file_name[] = "third_gtk_image_menu_item_file";
+    GObject *button_menu_object_save_file = (
+        gtk_builder_get_object(builder, button_menu_save_file_name)
     );
     check_elem_interface(
-        button_menu_object_save_as_file,
-        &button_menu_save_as_file_name
+        button_menu_object_save_file,
+        &button_menu_save_file_name
     );
-    GtkWidget *button_menu_save_as_file = GTK_WIDGET(button_menu_object_save_as_file);
+    GtkWidget *button_menu_save_file = GTK_WIDGET(button_menu_object_save_file);
     g_signal_connect(
-        button_menu_save_as_file, "activate",
-        G_CALLBACK(save_as_file), &text_struct
+        button_menu_save_file, "activate",
+        G_CALLBACK(save_file), &text_struct
     );
 
     // Start the GTK event loop

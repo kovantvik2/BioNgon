@@ -10,7 +10,7 @@
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
-    <property name="stock">gtk-save</property>
+    <property name="stock">gtk-open</property>
   </object>
   <object class="GtkImage" id="image3">
     <property name="visible">True</property>
@@ -52,6 +52,7 @@
                 <property name="name">first_gtk_menu_file_item_main_window</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">Files</property>
                 <property name="label" translatable="yes">_Files</property>
                 <property name="use-underline">True</property>
                 <child type="submenu">
@@ -73,24 +74,12 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="second_gtk_image_menu_item_file">
-                        <property name="label">_Save</property>
-                        <property name="name">second_gtk_image_menu_item_file</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Save file</property>
-                        <property name="use-underline">True</property>
-                        <property name="image">image2</property>
-                        <property name="use-stock">False</property>
-                      </object>
-                    </child>
-                    <child>
                       <object class="GtkImageMenuItem" id="third_gtk_image_menu_item_file">
-                        <property name="label">_Save as</property>
+                        <property name="label">_Save</property>
                         <property name="name">third_gtk_image_menu_item_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Save as</property>
+                        <property name="tooltip-text" translatable="yes">Save file</property>
                         <property name="use-underline">True</property>
                         <property name="image">image3</property>
                         <property name="use-stock">False</property>
@@ -121,11 +110,65 @@
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem" id="first_gtk_menu_othe_item_main_window">
-                <property name="name">first_gtk_menu_othe_item_main_window</property>
+              <object class="GtkMenuItem" id="first_gtk_menu_db_item_main_window">
+                <property name="name">first_gtk_menu_db_item_main_window</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="tooltip-text" translatable="yes">Other menu item</property>
+                <property name="tooltip-text" translatable="yes">DB</property>
+                <property name="label" translatable="yes">_DB</property>
+                <property name="use-underline">True</property>
+                <child type="submenu">
+                  <object class="GtkMenu" id="first_gtk_sumenu_file_db_main_window">
+                    <property name="name">first_gtk_sumenu_file_db_main_window</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="tooltip-text" translatable="yes">Sumenu</property>
+                    <child>
+                      <object class="GtkImageMenuItem" id="first_gtk_image_menu_db_file">
+                        <property name="name">first_gtk_image_menu_db_file</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="image">image2</property>
+                        <property name="use-stock">False</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="second_gtk_image_menu_db_file">
+                        <property name="name">second_gtk_image_menu_db_file</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="image">image6</property>
+                        <property name="use-stock">False</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSeparatorMenuItem" id="first_gtk_separator_menu_item_file1">
+                        <property name="name">first_gtk_separator_menu_item_file</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Separator</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="fourth_gtk_image_menu_item_file1">
+                        <property name="name">fourth_gtk_image_menu_item_file</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Exit</property>
+                        <property name="image">image7</property>
+                        <property name="use-stock">False</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="first_gtk_menu_othe_item_main_window">
+                <property name="name">first_gtk_menu_other_item_main_window</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="tooltip-text" translatable="yes">Other</property>
                 <property name="label" translatable="yes">_Other</property>
                 <property name="use-underline">True</property>
                 <child type="submenu">
@@ -169,7 +212,8 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="tooltip-text" translatable="yes">Text field</property>
-                <property name="wrap-mode">word-char</property>
+                <property name="wrap-mode">word</property>
+                <property name="accepts-tab">False</property>
                 <property name="monospace">True</property>
               </object>
             </child>
@@ -244,8 +288,20 @@
       </object>
     </child>
   </object>
-  <object class="GtkDialog" id="second_application_window">
+  <object class="GtkImage" id="image6">
+    <property name="visible">True</property>
     <property name="can-focus">False</property>
+    <property name="stock">gtk-save-as</property>
+  </object>
+  <object class="GtkImage" id="image7">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="stock">gtk-quit</property>
+  </object>
+  <object class="GtkDialog" id="second_application_window">
+    <property name="name">second_application_window</property>
+    <property name="can-focus">False</property>
+    <property name="tooltip-text" translatable="yes">Error</property>
     <property name="resizable">False</property>
     <property name="default-width">350</property>
     <property name="default-height">250</property>
@@ -285,56 +341,19 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="second_gtk_box_second_window">
-            <property name="name">second_gtk_box_second_window</property>
+          <object class="GtkLabel" id="first_gtk_label_second_main">
+            <property name="name">first_gtk_label_second_main</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="tooltip-text" translatable="yes">Second gtk box</property>
-            <property name="orientation">vertical</property>
-            <property name="spacing">21</property>
-            <property name="homogeneous">True</property>
-            <child>
-              <object class="GtkRadioButton" id="first_gtk_radiobutton_second_window">
-                <property name="label" translatable="yes">RU</property>
-                <property name="name">first_gtk_radiobutton_second_window</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="tooltip-text" translatable="yes">Russian</property>
-                <property name="halign">center</property>
-                <property name="valign">center</property>
-                <property name="active">True</property>
-                <property name="draw-indicator">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkRadioButton" id="second_gtk_radiobutton_second_window">
-                <property name="label" translatable="yes">EN</property>
-                <property name="name">second_gtk_radiobutton_second_window</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="tooltip-text" translatable="yes">English</property>
-                <property name="halign">center</property>
-                <property name="valign">center</property>
-                <property name="active">True</property>
-                <property name="draw-indicator">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
+            <property name="tooltip-text" translatable="yes">Error text</property>
+            <property name="label" translatable="yes">Text error</property>
+            <attributes>
+              <attribute name="font-desc" value="Sans 14"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">True</property>
-            <property name="fill">False</property>
+            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>

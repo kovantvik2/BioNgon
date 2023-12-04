@@ -20,6 +20,7 @@ typedef struct SObject {
     char buffer[BUFFER_SIZE];
     char *filename_save_as;
     char *file_write_data;
+    short unsigned int check_txt_field;
 } TObject;
 
 #endif // STRUCTURES_H_INCLUDED
