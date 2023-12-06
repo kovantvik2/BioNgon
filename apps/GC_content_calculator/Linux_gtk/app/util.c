@@ -4,16 +4,20 @@
 #define NUMBER_OF_NUCLEOTIDES 5
 
 
-void exit_the_window(GtkWidget *window)
+
+
+void exit_the_window(GtkWidget *menu_item, gpointer user_data)
 {   // Exit the window
 
-    gtk_window_close(window);
+    GtkWidget *window = GTK_WIDGET(user_data);
+    gtk_widget_destroy(window);
 }
 
 
 void init_struct(TObject *text_struct)
 {   // Basic initialization of the structure
 
+    text_struct->path_to_db = "../DB/DB.db";
     text_struct->length_dna = 0;
     text_struct->length_ATGCU = 0;
     text_struct->gc_content = 0;
@@ -41,7 +45,7 @@ void error_message(char *error)
     check_elem_interface(second_window_object, &second_window_name);
     GtkWidget *second_window = GTK_WIDGET(second_window_object);
 
-    char second_window_title[] = "Error";
+    char second_window_title[] = "Service message";
     gtk_window_set_title(GTK_WINDOW(second_window), second_window_title);
 
     g_signal_connect(second_window, "destroy", G_CALLBACK(gtk_main_quit), NULL);

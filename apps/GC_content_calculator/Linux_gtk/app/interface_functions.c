@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
-#include "structures.h"
 
+#include "structures.h"
+#include "util.h"
 
 void open_file(GtkWidget *widget, TObject *text_struct)
 {   // Open the data file
@@ -81,7 +82,9 @@ void save_file(GtkWidget *widget, TObject *text_struct)
                 gtk_text_buffer_get_start_iter(buffer, &start);
                 gtk_text_buffer_get_end_iter(buffer, &end);
 
-                char *text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+                char *text = gtk_text_buffer_get_text(
+                    buffer, &start, &end, FALSE
+                );
                 fprintf(text_struct->file_write_data, text);
             }
             fclose(text_struct->file_write_data);

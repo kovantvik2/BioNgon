@@ -14,4 +14,5 @@ int check_elem_interface(GObject *element, char *element_name);
 // Exit the window
 void exit_the_window(GtkWidget *window);
 
+
 #endif // UTIL_H_INCLUDED
