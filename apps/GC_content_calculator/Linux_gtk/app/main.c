@@ -123,7 +123,6 @@ int main(int argc, char *argv[])
 
     // Create DB
     char button_menu_create_db_name[] = "first_gtk_image_menu_db_file";
-
     GObject *button_menu_create_db_object = (
         gtk_builder_get_object(builder, button_menu_create_db_name)
     );
@@ -136,6 +135,38 @@ int main(int argc, char *argv[])
         button_menu_create_db, "activate",
         G_CALLBACK(create_db), &text_struct
     );
+
+    // Delete DB
+    char button_menu_delete_db_name[] = "second_gtk_image_menu_db_file";
+    GObject *button_menu_delete_db_object = (
+        gtk_builder_get_object(builder, button_menu_delete_db_name)
+    );
+    check_elem_interface(
+        button_menu_delete_db_object,
+        &button_menu_delete_db_name
+    );
+    GtkWidget *button_menu_delete_db = GTK_WIDGET(button_menu_delete_db_object);
+    g_signal_connect(
+        button_menu_delete_db, "activate",
+        G_CALLBACK(delete_db), &text_struct
+    );
+
+    // Download to DB
+    char button_download_name[] = "second_gtk_button_main_window";
+    GObject *button_download_object = (
+        gtk_builder_get_object(builder, button_download_name)
+    );
+    check_elem_interface(
+        button_download_object,
+        &button_download_name
+    );
+    GtkWidget *button_download = GTK_WIDGET(button_download_object);
+    g_signal_connect(
+        button_download, "clicked",
+        G_CALLBACK(download_db),  &text_struct
+    );
+
+
     // Start the GTK event loop
     gtk_main();
 
