@@ -23,16 +23,14 @@ void read_file(GtkWidget *widget, TObject *text_struct)
         gtk_text_buffer_set_text(buffer, "", -1);
 
         for (int i = 0; i < NUMBER_OF_NUCLEOTIDES; i++) {
-            if (text_struct->array_number_of_nucleotides[i] > 0) {
-                gtk_text_buffer_insert_at_cursor(
-                    buffer, g_strdup_printf(
-                        "%c - %ld - %0.2f%\n",
-                        (char)text_struct->array_of_nucleotides[i],
-                        text_struct->array_number_of_nucleotides[i],
-                        text_struct->array_percent_of_nucleotides[i]
-                    ),
-                -1);
-            }
+            gtk_text_buffer_insert_at_cursor(
+                buffer, g_strdup_printf(
+                    "%c - %ld - %0.2f%\n",
+                    (char)text_struct->array_of_nucleotides[i],
+                    text_struct->array_number_of_nucleotides[i],
+                    text_struct->array_percent_of_nucleotides[i]
+                ),
+            -1);
         }
 
         gc_percent(text_struct);
