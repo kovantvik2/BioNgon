@@ -6,6 +6,9 @@
 #ifndef DB_H_INCLUDED
 #define DB_H_INCLUDED
 
+// Output the last iteration
+void last_iter(GtkWidget *widget,  TObject *text_struct);
+
 // Download to DB
 void download_db(GtkWidget *widget,  TObject *text_struct);
 

@@ -10,6 +10,61 @@
 #include "sqlite3.h"
 
 
+static int callback(void *data, int argc, char **argv, char **azColName) {
+    // Обработка результатов, например, вывод на экран
+    for (int i = 0; i < argc; i++) {
+        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+    }
+    return 0;
+}
+
+
+void last_iter(GtkWidget *widget,  TObject *text_struct)
+{   // Output the last iteration
+
+    sqlite3 *db;
+    if (sqlite3_open(text_struct->path_to_db, &db) != SQLITE_OK) {
+        char db_error[256];
+        snprintf(
+            db_error, sizeof(db_error),
+            "Error: \n%s",
+            sqlite3_errmsg(db)
+        );
+        sqlite3_close(db);
+        return;
+    }
+
+    char sql[512];
+    snprintf(
+        sql, sizeof(sql),
+        "SELECT * FROM atgcu "
+        "ORDER BY id DESC "
+        "LIMIT 1"
+    );
+
+    char *result = NULL;
+    if (sqlite3_exec(db, sql, callback, &result, NULL) != SQLITE_OK) {
+        char db_error[256];
+        snprintf(
+            db_error, sizeof(db_error),
+            "SQL error: %s\n",
+            sqlite3_errmsg(db)
+        );
+        error_message(&db_error);
+        return;
+    }
+    else {
+        GtkTextBuffer *buffer = gtk_text_view_get_buffer(
+            GTK_TEXT_VIEW(text_struct->text_field)
+        );
+        gtk_text_buffer_set_text(buffer, "", -1);
+        gtk_text_buffer_insert_at_cursor(
+            buffer, "OK", -1
+        );
+    }
+    sqlite3_close(db);
+}
+
 void download_db(GtkWidget *widget,  TObject *text_struct)
 {   // Download to DB
 
@@ -57,8 +112,10 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
         char count_error[256];
         snprintf(
             count_error, sizeof(count_error),
-            "Error writing to the table. "
-            "%d values",
+            "Error writing to the table.\n"
+            "%d values.\n"
+            "Check what you are trying to "
+            "write to the database.",
             result
         );
         error_message(&count_error);
@@ -70,7 +127,7 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
         char db_error[256];
         snprintf(
             db_error, sizeof(db_error),
-            "Cannot create database: \n%s",
+            "Error: \n%s",
             sqlite3_errmsg(db)
         );
         sqlite3_close(db);
@@ -108,6 +165,16 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
             sqlite3_errmsg(db)
         );
         error_message(&db_error);
+        return;
+    }
+    else {
+        GtkTextBuffer *buffer = gtk_text_view_get_buffer(
+            GTK_TEXT_VIEW(text_struct->text_field)
+        );
+        gtk_text_buffer_set_text(buffer, "", -1);
+        gtk_text_buffer_insert_at_cursor(
+            buffer, "OK", -1
+        );
     }
     sqlite3_close(db);
     g_free(text);
