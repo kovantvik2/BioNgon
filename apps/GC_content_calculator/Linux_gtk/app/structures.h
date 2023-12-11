@@ -4,7 +4,7 @@
 
 #define NUMBER_OF_NUCLEOTIDES 5 // Number of nucleotides
 #define BUFFER_SIZE 8192 // BufferBuffer size
-#define NUMBER_OF_CHARACTERS 256
+#define NUMBER_OF_CHARACTERS 4096
 
 
 typedef struct SObject {
@@ -24,6 +24,7 @@ typedef struct SObject {
     char *file_write_data;
     int check_txt_field;
     char *path_to_db;
+    char *result;
 } TObject;
 
 #endif // STRUCTURES_H_INCLUDED

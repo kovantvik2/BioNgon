@@ -2,20 +2,83 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+#include <glib.h>
+//#include <sys/types.h>
+//#include <sys/stat.h>
 
 #include "structures.h"
 #include "util.h"
 #include "sqlite3.h"
 
 
+// Проверка на валидность UTF-8 строки
+gboolean is_valid_utf8(const gchar *text) {
+    return g_utf8_validate(text, -1, NULL);
+}
+
+// Преобразование строки к UTF-8
+gchar *convert_to_utf8(const gchar *text, const gchar *from_encoding) {
+    return g_convert(text, -1, "UTF-8", from_encoding, NULL, NULL, NULL);
+}
+
 static int callback(void *data, int argc, char **argv, char **azColName) {
-    // Обработка результатов, например, вывод на экран
-    for (int i = 0; i < argc; i++) {
-        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+    GString *result = (GString *)data;
+    g_string_truncate(result, 0);
+    g_string_append_printf(result,
+        "A - %s - %s%%\n"
+        "U - %s - %s%%\n"
+        "G - %s - %s%%\n"
+        "C - %s - %s%%\n"
+        "T - %s - %s%%\n"
+        "Total number of characters - %s\n"
+        "Number of ATGCU - %s\n"
+        "Other characters - %s\n"
+        "Number of GC content in characters - %s\n"
+        "Number of GC content in percent - %s%%",
+        argv[0], argv[5],
+        argv[4], argv[9],
+        argv[1], argv[6],
+        argv[2], argv[7],
+        argv[3], argv[8],
+        argv[10],
+        argv[11],
+        argv[12],
+        argv[13],
+        argv[14]
+    );
+
+    gchar *utf8_count_out = convert_to_utf8(result->str, "UTF-8");
+    if (!is_valid_utf8(utf8_count_out)) {
+        g_free(utf8_count_out);
+        return;
     }
+    result->str = g_strdup(utf8_count_out);
+    printf("%s", result->str);
+    g_free(utf8_count_out);
+    //result = g_string_new(NULL);
     return 0;
+}
+
+gboolean update_ui(gpointer user_data) {
+    TObject *text_struct = (TObject *)user_data;
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_struct->text_field));
+    // Проверка на наличие result и его строки
+    if (text_struct->result) {
+        //TObject *text_struct = (TObject *)user_data;
+
+        gtk_text_buffer_set_text(buffer, text_struct->result, -1);
+        printf("%s", text_struct->result);
+        // Освобождение памяти, выделенной для строки
+        //g_string_free(text_struct->result, TRUE);
+
+        // Установка указателя в NULL
+        text_struct->result = NULL;
+    }
+    else {
+        printf("!!!!!error");
+    }
+
+    return G_SOURCE_REMOVE;
 }
 
 
@@ -37,13 +100,32 @@ void last_iter(GtkWidget *widget,  TObject *text_struct)
     char sql[512];
     snprintf(
         sql, sizeof(sql),
-        "SELECT * FROM atgcu "
+        "SELECT a_count, "
+        "g_count, "
+        "c_count, "
+        "t_count, "
+        "u_count, "
+        "a_percent, "
+        "g_percent, "
+        "c_percent, "
+        "t_percent, "
+        "u_percent, "
+        "Total_number_of_characters, "
+        "Number_of_ATGCU, "
+        "Other_characters, "
+        "Number_of_GC_content_in_characters, "
+        "Number_of_GC_content_in_percent "
+        "FROM atgcu "
         "ORDER BY id DESC "
         "LIMIT 1"
     );
-
-    char *result = NULL;
-    if (sqlite3_exec(db, sql, callback, &result, NULL) != SQLITE_OK) {
+    if (text_struct->result) {
+        g_string_free(text_struct->result, TRUE);
+        text_struct->result = NULL;
+    }
+    // Выделение памяти под новый результат
+    text_struct->result = g_string_new(NULL);
+    if (sqlite3_exec(db, sql, callback, text_struct->result, NULL) != SQLITE_OK) {
         char db_error[256];
         snprintf(
             db_error, sizeof(db_error),
@@ -54,13 +136,7 @@ void last_iter(GtkWidget *widget,  TObject *text_struct)
         return;
     }
     else {
-        GtkTextBuffer *buffer = gtk_text_view_get_buffer(
-            GTK_TEXT_VIEW(text_struct->text_field)
-        );
-        gtk_text_buffer_set_text(buffer, "", -1);
-        gtk_text_buffer_insert_at_cursor(
-            buffer, "OK", -1
-        );
+         g_idle_add(update_ui, text_struct);
     }
     sqlite3_close(db);
 }
@@ -237,20 +313,20 @@ gboolean create_db_callback(gpointer user_data)
         char *sql = (
             "CREATE TABLE atgcu ("
             "id INTEGER PRIMARY KEY,"
-            "a_count INTEGER,"
-            "g_count INTEGER,"
-            "c_count INTEGER,"
-            "t_count INTEGER,"
-            "u_count INTEGER,"
+            "a_count TEXT,"
+            "g_count TEXT,"
+            "c_count TEXT,"
+            "t_count TEXT,"
+            "u_count TEXT,"
             "a_percent TEXT,"
             "g_percent TEXT,"
             "c_percent TEXT,"
             "t_percent TEXT,"
             "u_percent TEXT,"
-            "Total_number_of_characters INTEGER,"
-            "Number_of_ATGCU INTEGER,"
-            "Other_characters INTEGER,"
-            "Number_of_GC_content_in_characters INTEGER,"
+            "Total_number_of_characters TEXT,"
+            "Number_of_ATGCU TEXT,"
+            "Other_characters TEXT,"
+            "Number_of_GC_content_in_characters TEXT,"
             "Number_of_GC_content_in_percent TEXT)"
         );
         rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
