@@ -24,7 +24,7 @@ typedef struct SObject {
     char *file_write_data;
     int check_txt_field;
     char *path_to_db;
-    char *result;
+    GString *result;
 } TObject;
 
 #endif // STRUCTURES_H_INCLUDED

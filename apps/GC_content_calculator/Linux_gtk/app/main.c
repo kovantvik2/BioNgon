@@ -181,6 +181,20 @@ int main(int argc, char *argv[])
         G_CALLBACK(last_iter),  &text_struct
     );
 
+    // Output the 10 last iterations
+    char button_ten_last_iter_name[] = "fifth_gtk_image_menu_db_file";
+    GObject *button_ten_last_iter_object = (
+        gtk_builder_get_object(builder, button_ten_last_iter_name)
+    );
+    check_elem_interface(
+        button_ten_last_iter_object,
+        &button_ten_last_iter_name
+    );
+    GtkWidget *button_ten_last_iter = GTK_WIDGET(button_ten_last_iter_object);
+    g_signal_connect(
+        button_ten_last_iter, "activate",
+        G_CALLBACK(last_ten_iter),  &text_struct
+    );
 
     // Start the GTK event loop
     gtk_main();

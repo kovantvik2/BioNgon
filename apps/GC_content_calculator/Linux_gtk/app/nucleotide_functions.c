@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <gtk/gtk.h>
+#include <time.h>
+
 #include "structures.h"
 #include "util.h"
 
@@ -16,11 +18,23 @@ void read_file(GtkWidget *widget, TObject *text_struct)
         text_struct->file = fopen(text_struct->filename, "r");
         count_dna(text_struct);
 
+        time_t t;
+        struct tm *now;
+        time(&t);
+        now = localtime(&t);
+
         percent_nucl(text_struct);
         GtkTextBuffer *buffer = gtk_text_view_get_buffer(
             GTK_TEXT_VIEW(text_struct->text_field)
         );
         gtk_text_buffer_set_text(buffer, "", -1);
+        gtk_text_buffer_insert_at_cursor(
+            buffer, g_strdup_printf(
+                "Date of processing:\n%02d:%02d - %02d.%02d.%d\n\n",
+                now->tm_hour, now->tm_min,
+                now->tm_mday, now->tm_mon + 1, now->tm_year + 1900
+            ),
+        -1);
 
         for (int i = 0; i < NUMBER_OF_NUCLEOTIDES; i++) {
             gtk_text_buffer_insert_at_cursor(

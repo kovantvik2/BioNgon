@@ -6,6 +6,10 @@
 #ifndef DB_H_INCLUDED
 #define DB_H_INCLUDED
 
+
+// Output the 10 last iterations
+void last_ten_iter(GtkWidget *widget,  TObject *text_struct);
+
 // Output the last iteration
 void last_iter(GtkWidget *widget,  TObject *text_struct);
 
