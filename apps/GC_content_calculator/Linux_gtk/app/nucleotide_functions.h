@@ -1,5 +1,7 @@
 #include <gtk/gtk.h>
+
 #include "structures.h"
+
 #ifndef NUCLEOTIDE_FUNCTIONS_H_INCLUDED
 #define NUCLEOTIDE_FUNCTIONS_H_INCLUDED
 

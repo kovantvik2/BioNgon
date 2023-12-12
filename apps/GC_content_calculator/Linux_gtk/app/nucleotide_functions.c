@@ -7,12 +7,14 @@
 #include "util.h"
 
 
-void gc_percent(TObject *text_struct);
-void percent_nucl(TObject *text_struct);
-void count_dna(TObject *text_struct);
+void read_file(GtkWidget *widget, TObject *text_struct); // Open selected and read file
+void gc_percent(TObject *text_struct); // Search GC percent
+void percent_nucl(TObject *text_struct); // Search percent of nucleotides
+void count_dna(TObject *text_struct); // Counting dna
+
 
 void read_file(GtkWidget *widget, TObject *text_struct)
-{   // Open selected file
+{   // Open selected and read file
 
     if (text_struct->filename != NULL) {
         text_struct->file = fopen(text_struct->filename, "r");
@@ -80,7 +82,11 @@ void read_file(GtkWidget *widget, TObject *text_struct)
                 text_struct->gc_content_percent
             ),
         -1);
+
         fclose(text_struct->file);
+        text_struct->file = NULL;
+        free(text_struct->filename);
+        text_struct->filename = NULL;
         init_struct(text_struct);
         text_struct->check_txt_field = 1;
     }

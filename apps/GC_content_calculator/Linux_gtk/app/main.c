@@ -9,7 +9,6 @@
 #include "DB.h"
 
 
-
 int main(int argc, char *argv[])
 {
     TObject text_struct;
@@ -195,6 +194,22 @@ int main(int argc, char *argv[])
         button_ten_last_iter, "activate",
         G_CALLBACK(last_ten_iter),  &text_struct
     );
+
+    // To clear the text field
+    char button_menu_clear_name[] = "fifth_gtk_image_menu_item_file";
+    GObject *button_menu_clear_object = (
+        gtk_builder_get_object(builder, button_menu_clear_name)
+    );
+    check_elem_interface(
+        button_menu_clear_object,
+        &button_menu_clear_name
+    );
+    GtkWidget *button_menu_clear = GTK_WIDGET(button_menu_clear_object);
+    g_signal_connect(
+        button_menu_clear, "activate",
+        G_CALLBACK(clear_text_field),  &text_struct
+    );
+
 
     // Start the GTK event loop
     gtk_main();

@@ -1,12 +1,13 @@
 #include <gtk/gtk.h>
+
 #ifndef STRUCTURES_H_INCLUDED
 #define STRUCTURES_H_INCLUDED
 
 #define NUMBER_OF_NUCLEOTIDES 5 // Number of nucleotides
 #define BUFFER_SIZE 8192 // BufferBuffer size
-#define NUMBER_OF_CHARACTERS 4096
 
 
+// Basic working structure
 typedef struct SObject {
     char *filename;
     GtkWidget *text_field;

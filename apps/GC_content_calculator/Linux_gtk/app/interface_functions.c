@@ -4,6 +4,12 @@
 #include "structures.h"
 #include "util.h"
 
+int has_text(TObject *text_struct); // Checking for text
+void open_file(GtkWidget *widget, TObject *text_struct); // Open the data file
+void save_file(GtkWidget *widget, TObject *text_struct); // Save file
+void clear_text_field(GtkWidget *widget, TObject *text_struct); // To clear the text field
+
+
 void open_file(GtkWidget *widget, TObject *text_struct)
 {   // Open the data file
 
@@ -44,10 +50,21 @@ void open_file(GtkWidget *widget, TObject *text_struct)
     gtk_widget_destroy(dialog);
 }
 
+int has_text(TObject *text_struct)
+{   // Checking for text
+
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_struct->text_field));
+    GtkTextIter start, end;
+    gtk_text_buffer_get_start_iter(buffer, &start);
+    gtk_text_buffer_get_end_iter(buffer, &end);
+    gchar *text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+    return strlen(text);
+}
+
 void save_file(GtkWidget *widget, TObject *text_struct)
 {   // Save file
 
-    if (text_struct->check_txt_field == 1) {
+    if (has_text(text_struct) > 0) {
         GtkWidget *dialog;
         GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
         gint res;
@@ -69,6 +86,12 @@ void save_file(GtkWidget *widget, TObject *text_struct)
                 GTK_FILE_CHOOSER(dialog)
             );
         }
+        else if (res == GTK_RESPONSE_CANCEL) {
+            text_struct->filename_save_as == NULL;
+            gtk_widget_destroy(dialog);
+            return;
+        }
+
 
         if (text_struct->filename_save_as != NULL) {
             text_struct->file_write_data = fopen(
@@ -91,10 +114,21 @@ void save_file(GtkWidget *widget, TObject *text_struct)
         }
         gtk_widget_destroy(dialog);
     }
-    else if (text_struct->check_txt_field == 0) {
-        char error_read_file[] = "The file has not been read.\n"
-                                 "There is nothing to save.";
+    else {
+        char error_read_file[] = "There is nothing to save.";
         error_message(&error_read_file);
+        return;
     }
+
+    text_struct->file_write_data = NULL;
+    free(text_struct->filename_save_as);
+    text_struct->filename_save_as = NULL;
+}
+
+void clear_text_field(GtkWidget *widget, TObject *text_struct)
+{   // To clear the text field
+
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_struct->text_field));
+    gtk_text_buffer_set_text(buffer, "", -1);
 }
 

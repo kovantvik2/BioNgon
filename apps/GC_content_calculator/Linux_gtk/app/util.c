@@ -1,9 +1,16 @@
 #include <gtk/gtk.h>
+
 #include "structures.h"
+#include "sqlite3.h"
 
 #define NUMBER_OF_NUCLEOTIDES 5
 
 
+int get_total_records(const char *table_name, const char *db_path); // Are there any rows in the table
+void exit_the_window(GtkWidget *menu_item, gpointer user_data); // Exit the window
+void init_struct(TObject *text_struct); // Basic initialization of the structure
+void error_message(char *error); // Displays an error window
+int check_elem_interface(GObject *element, char *element_name); // Checking for the absence of an interface element
 
 
 void exit_the_window(GtkWidget *menu_item, gpointer user_data)
@@ -97,3 +104,41 @@ int check_elem_interface(GObject *element, char *element_name)
     }
     return 0;
 }
+
+int get_total_records(const char *table_name, const char *db_path)
+{   // Are there any rows in the table
+
+    sqlite3 *db;
+    if (sqlite3_open(db_path, &db) != SQLITE_OK) {
+        char db_error[256];
+        snprintf(
+            db_error, sizeof(db_error),
+            "Error: \n%s",
+            sqlite3_errmsg(db)
+        );
+        sqlite3_close(db);
+        return;
+    }
+
+    char sql[512];
+    snprintf(
+        sql, sizeof(sql),
+        "SELECT COUNT(*) FROM %s", table_name
+    );
+
+    int total_records = -1;
+    sqlite3_stmt *stmt;
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (rc == SQLITE_OK) {
+        rc = sqlite3_step(stmt);
+        if (rc == SQLITE_ROW) {
+            total_records = sqlite3_column_int(stmt, 0);
+        }
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    return total_records;
+}
+

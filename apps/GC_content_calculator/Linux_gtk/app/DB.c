@@ -8,6 +8,9 @@
 #include "util.h"
 #include "sqlite3.h"
 
+
+void append_result_to_string(sqlite3_stmt *stmt, GString *result); // Append result to string
+void update_text_view_buffer(GtkWidget *text_view, const gchar *text); // Update text view buffer
 void last_ten_iter(GtkWidget *widget,  TObject *text_struct); // Output the 10 last iterations
 gboolean is_valid_utf8(const gchar *text); // Checking the validity of UTF-8 strings
 gchar *convert_to_utf8(const gchar *text, const gchar *from_encoding); // Converting a string to UTF-8
@@ -24,6 +27,23 @@ void create_db(GtkWidget *widget, TObject *text_struct); // Create DB
 void last_ten_iter(GtkWidget *widget,  TObject *text_struct)
 {   // Output the 10 last iterations
 
+    if (access(text_struct->path_to_db, F_OK) == -1) {
+        char db_dowload_error[] = (
+            "The database is missing."
+        );
+        error_message(&db_dowload_error);
+        return;
+    }
+
+    char table_name[] = "atgcu";
+    if (get_total_records(&table_name, text_struct->path_to_db) < 1) {
+        char db_dowload_error[] = (
+            "There is not a single row in the table."
+        );
+        error_message(&db_dowload_error);
+        return;
+    }
+
     sqlite3 *db;
     if (sqlite3_open(text_struct->path_to_db, &db) != SQLITE_OK) {
         char db_error[256];
@@ -39,7 +59,13 @@ void last_ten_iter(GtkWidget *widget,  TObject *text_struct)
     char sql[512];
     snprintf(
         sql, sizeof(sql),
-        "SELECT a_count, "
+        "SELECT "
+        "hour, "
+        "minute, "
+        "day, "
+        "month,"
+        "year, "
+        "a_count, "
         "g_count, "
         "c_count, "
         "t_count, "
@@ -58,8 +84,92 @@ void last_ten_iter(GtkWidget *widget,  TObject *text_struct)
         "ORDER BY id DESC "
         "LIMIT 10"
     );
+
+    text_struct->result = g_string_new(NULL);
+
+    sqlite3_stmt *stmt;
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+    if (rc != SQLITE_OK) {
+        char db_error[256];
+        snprintf(
+            db_error, sizeof(db_error),
+            "Error preparing statement:\n %s",
+            sqlite3_errmsg(db)
+        );
+        error_message(&db_error);
+        sqlite3_close(db);
+        return;
+    }
+
+    while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
+        append_result_to_string(stmt, text_struct->result);
+    }
+
+    if (rc != SQLITE_DONE) {
+        char db_error[256];
+        snprintf(
+            db_error, sizeof(db_error),
+            "Error executing statement: \n%s",
+            sqlite3_errmsg(db)
+        );
+        error_message(&db_error);
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    if (text_struct->result) {
+        GtkWidget *text_view = GTK_TEXT_VIEW(text_struct->text_field);
+        update_text_view_buffer(text_view, text_struct->result->str);
+        g_string_free(text_struct->result, TRUE);
+        text_struct->result = NULL;
+    } else {
+        char update_error[] = "Error when displaying the result.";
+        error_message(&update_error);
+    }
 }
 
+void append_result_to_string(sqlite3_stmt *stmt, GString *result)
+{   // Append result to string
+
+    g_string_append_printf(
+        result,
+        "*********************\n\n"
+        "Date of processing:\n%s:%s - %s.%s.%s\n\n"
+        "A - %s - %s%%\n"
+        "U - %s - %s%%\n"
+        "G - %s - %s%%\n"
+        "C - %s - %s%%\n"
+        "T - %s - %s%%\n"
+        "Total number of characters - %s\n"
+        "Number of ATGCU - %s\n"
+        "Other characters - %s\n"
+        "Number of GC content in characters - %s\n"
+        "Number of GC content in percent - %s%%\n\n"
+        "*********************\n\n",
+        sqlite3_column_text(stmt, 0), sqlite3_column_text(stmt, 1),
+        sqlite3_column_text(stmt, 2), sqlite3_column_text(stmt, 3),
+        sqlite3_column_text(stmt, 4), sqlite3_column_text(stmt, 5),
+        sqlite3_column_text(stmt, 10), sqlite3_column_text(stmt, 9),
+        sqlite3_column_text(stmt, 14), sqlite3_column_text(stmt, 6),
+        sqlite3_column_text(stmt, 11), sqlite3_column_text(stmt, 7),
+        sqlite3_column_text(stmt, 12), sqlite3_column_text(stmt, 8),
+        sqlite3_column_text(stmt, 13),
+        sqlite3_column_text(stmt, 15),
+        sqlite3_column_text(stmt, 16),
+        sqlite3_column_text(stmt, 17),
+        sqlite3_column_text(stmt, 18),
+        sqlite3_column_text(stmt, 19)
+    );
+}
+
+void update_text_view_buffer(GtkWidget *text_view, const gchar *text)
+{   // Update text view buffer
+
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_view));
+    gtk_text_buffer_set_text(buffer, text, -1);
+}
 
 gboolean is_valid_utf8(const gchar *text)
 {   // Checking the validity of UTF-8 strings
@@ -81,6 +191,7 @@ static int callback(void *data, int argc, char **argv, char **azColName)
     g_string_truncate(text_struct->result, 0);
     g_string_append_printf(
         text_struct->result,
+        "*********************\n\n"
         "Date of processing:\n%s:%s - %s.%s.%s\n\n"
         "A - %s - %s%%\n"
         "U - %s - %s%%\n"
@@ -91,7 +202,8 @@ static int callback(void *data, int argc, char **argv, char **azColName)
         "Number of ATGCU - %s\n"
         "Other characters - %s\n"
         "Number of GC content in characters - %s\n"
-        "Number of GC content in percent - %s%%\n",
+        "Number of GC content in percent - %s%%\n\n"
+        "*********************\n\n",
         argv[0], argv[1], argv[2], argv[3], argv[4],
         argv[5], argv[10],
         argv[9], argv[14],
@@ -144,6 +256,23 @@ gboolean update_ui(gpointer user_data)
 void last_iter(GtkWidget *widget,  TObject *text_struct)
 {   // Output the last iteration
 
+    if (access(text_struct->path_to_db, F_OK) == -1) {
+        char db_dowload_error[] = (
+            "The database is missing."
+        );
+        error_message(&db_dowload_error);
+        return;
+    }
+
+    char table_name[] = "atgcu";
+    if (get_total_records(&table_name, text_struct->path_to_db) < 1) {
+        char db_dowload_error[] = (
+            "There is not a single row in the table."
+        );
+        error_message(&db_dowload_error);
+        return;
+    }
+
     sqlite3 *db;
     if (sqlite3_open(text_struct->path_to_db, &db) != SQLITE_OK) {
         char db_error[256];
@@ -186,6 +315,7 @@ void last_iter(GtkWidget *widget,  TObject *text_struct)
     );
 
     text_struct->result = g_string_new(NULL);
+
     if (sqlite3_exec(db, sql, callback, text_struct, NULL) != SQLITE_OK) {
         char db_error[256];
         snprintf(
@@ -201,6 +331,14 @@ void last_iter(GtkWidget *widget,  TObject *text_struct)
 
 void download_db(GtkWidget *widget,  TObject *text_struct)
 {   // Download to DB
+
+    if (access(text_struct->path_to_db, F_OK) == -1) {
+        char db_dowload_error[] = (
+            "The database is missing."
+        );
+        error_message(&db_dowload_error);
+        return;
+    }
 
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(
         GTK_TEXT_VIEW(text_struct->text_field)
@@ -282,25 +420,79 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
             "Number_of_GC_content_in_characters, Number_of_GC_content_in_percent"
         ") "
         "VALUES ("
-            "%02d, %02d, %02d, %02d, %d, "
-            "%d, %d, %d, %d, %d, '%0.2f', '%0.2f', "
-            "'%0.2f', '%0.2f', '%0.2f', %d, %d, %d, %d, '%0.2f'"
-        ")",
-        hour, minute, day, month, year,
-        a_count, u_count, g_count, c_count, t_count,
-        a_percent, u_percent, g_percent, c_percent, t_percent,
-        total_characters,
-        atgcu,
-        other_characters,
-        gc_content_characters,
-        gc_content_percent
+            "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
+        ")"
     );
 
-    if (sqlite3_exec(db, sql, 0, 0, 0) != SQLITE_OK) {
+    sqlite3_stmt *stmt;
+    int rc =sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (rc != SQLITE_OK) {
         char db_error[256];
         snprintf(
             db_error, sizeof(db_error),
-            "SQL error: %s\n",
+            "Error prepraring stateement:\n %s",
+            sqlite3_errmsg(db)
+        );
+        error_message(&db_error);
+        sqlite3_close(db);
+        g_free(text);
+        return;
+    }
+
+    char str_hour[3], str_minute[3], str_day[3], str_month[3], str_year[5];
+    char str_a_count[256], str_u_count[256], str_g_count[256], str_c_count[256], str_t_count[256];
+    char str_a_percent[256], str_u_percent[256], str_g_percent[256], str_c_percent[256], str_t_percent[256];
+    char str_total_characters[256], str_atgcu[256], str_other_characters[256], str_gc_content_characters[256];
+    char str_gc_content_percent[256];
+
+    snprintf(str_hour, sizeof(str_hour), "%02d", hour);
+    snprintf(str_minute, sizeof(str_minute), "%02d", minute);
+    snprintf(str_day, sizeof(str_day), "%02d", day);
+    snprintf(str_month, sizeof(str_month), "%02d", month);
+    snprintf(str_year, sizeof(str_year), "%d", year);
+    snprintf(str_a_count, sizeof(str_a_count), "%ld", a_count);
+    snprintf(str_u_count, sizeof(str_u_count), "%ld", u_count);
+    snprintf(str_g_count, sizeof(str_g_count), "%ld", g_count);
+    snprintf(str_c_count, sizeof(str_c_count), "%ld", c_count);
+    snprintf(str_t_count, sizeof(str_t_count), "%ld", t_count);
+    snprintf(str_a_percent, sizeof(str_a_percent), "%0.2f", a_percent);
+    snprintf(str_u_percent, sizeof(str_u_percent), "%0.2f", u_percent);
+    snprintf(str_g_percent, sizeof(str_g_percent), "%0.2f", g_percent);
+    snprintf(str_c_percent, sizeof(str_c_percent), "%0.2f", c_percent);
+    snprintf(str_t_percent, sizeof(str_t_percent), "%0.2f", t_percent);
+    snprintf(str_total_characters, sizeof(str_total_characters), "%ld", total_characters);
+    snprintf(str_atgcu, sizeof(str_atgcu), "%ld", atgcu);
+    snprintf(str_other_characters, sizeof(str_other_characters), "%ld", other_characters);
+    snprintf(str_gc_content_characters, sizeof(str_gc_content_characters), "%ld", gc_content_characters);
+    snprintf(str_gc_content_percent, sizeof(str_gc_content_percent), "%0.2f", gc_content_percent);
+
+    sqlite3_bind_text(stmt, 1, str_hour, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 2, str_minute, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 3, str_day, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 4, str_month, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 5, str_year, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 6, str_a_count, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 7, str_u_count, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 8, str_g_count, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 9, str_c_count, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 10, str_t_count, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 11, str_a_percent, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 12, str_u_percent, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 13, str_g_percent, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 14, str_c_percent, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 15, str_t_percent, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 16, str_total_characters, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 17, str_atgcu, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 18, str_other_characters, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 19, str_gc_content_characters, -1, SQLITE_STATIC);
+    sqlite3_bind_text(stmt, 20, str_gc_content_percent, -1, SQLITE_STATIC);
+
+    rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE) {
+        char db_error[256];
+        snprintf(
+            db_error, sizeof(db_error),
+            "Error executing statement: \n%s",
             sqlite3_errmsg(db)
         );
         error_message(&db_error);
@@ -315,6 +507,9 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
             buffer, "OK", -1
         );
     }
+
+    sqlite3_finalize(stmt);
+
     sqlite3_close(db);
     g_free(text);
 }

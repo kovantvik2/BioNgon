@@ -22,6 +22,11 @@
     <property name="can-focus">False</property>
     <property name="stock">gtk-cancel</property>
   </object>
+  <object class="GtkImage" id="image13">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="stock">gtk-stop</property>
+  </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -126,6 +131,18 @@
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="tooltip-text" translatable="yes">Separator</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkImageMenuItem" id="fifth_gtk_image_menu_item_file">
+                        <property name="label">_Clear text field</property>
+                        <property name="name">fifth_gtk_image_menu_item_file</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Clear text field</property>
+                        <property name="use-underline">True</property>
+                        <property name="image">image13</property>
+                        <property name="use-stock">False</property>
                       </object>
                     </child>
                     <child>
@@ -274,7 +291,7 @@
                     <property name="can-focus">False</property>
                     <property name="tooltip-text" translatable="yes">Sumenu</property>
                     <child>
-                      <object class="GtkImageMenuItem" id="fifth_gtk_image_menu_item_file">
+                      <object class="GtkImageMenuItem" id="fifth_gtk_image_menu_other_item_file">
                         <property name="label">_About</property>
                         <property name="name">fifth_gtk_image_menu_item_file</property>
                         <property name="visible">True</property>
@@ -389,7 +406,6 @@
     <property name="name">second_application_window</property>
     <property name="can-focus">False</property>
     <property name="tooltip-text" translatable="yes">Error</property>
-    <property name="resizable">False</property>
     <property name="default-width">350</property>
     <property name="default-height">250</property>
     <property name="type-hint">dialog</property>
