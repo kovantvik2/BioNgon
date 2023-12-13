@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1702409955 source:/media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/interface_functions.c
+1702467348 source:/media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/interface_functions.c
 	<stdio.h>
 	<gtk/gtk.h>
 	"structures.h"
@@ -2981,13 +2981,13 @@
 
 1677265621 /usr/include/gtk-3.0/gtk/gtk-autocleanups.h
 
-1702403016 /media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/structures.h
+1702476592 /media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/structures.h
 	<gtk/gtk.h>
 
-1702403008 /media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/util.h
+1702471902 /media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/util.h
 	"structures.h"
 
-1702404094 source:/media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/main.c
+1702467651 source:/media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/main.c
 	<stdio.h>
 	<stdlib.h>
 	"interface_functions.h"
@@ -3008,12 +3008,12 @@
 1700832836 /media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/sqlite3.h
 	<stdarg.h>
 
-1702372869 /media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/DB.h
+1702466162 /media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/DB.h
 	<gtk/gtk.h>
 	"structures.h"
 	"util.h"
 
-1702404465 source:/media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/nucleotide_functions.c
+1702467644 source:/media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/nucleotide_functions.c
 	<stdio.h>
 	<stdlib.h>
 	<gtk/gtk.h>
@@ -3084,12 +3084,12 @@
 	<unicode/utf16.h>
 	<math.h>
 
-1702403110 source:/media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/util.c
+1702476660 source:/media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/util.c
 	<gtk/gtk.h>
 	"structures.h"
 	"sqlite3.h"
 
-1702403703 source:/media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/DB.c
+1702479762 source:/media/pittchai/New/Dev/Bio/apps/GC_content_calculator/Linux_gtk/app/DB.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

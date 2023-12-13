@@ -23,9 +23,10 @@ typedef struct SObject {
     char buffer[BUFFER_SIZE];
     char *filename_save_as;
     char *file_write_data;
-    int check_txt_field;
     char *path_to_db;
     GString *result;
+    int headers_print_csv;
+    char *table_name;
 } TObject;
 
 #endif // STRUCTURES_H_INCLUDED

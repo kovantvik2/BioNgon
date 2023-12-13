@@ -87,6 +87,7 @@
             <property name="name">first_gtk_menu_bar_main_window</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="tooltip-text" translatable="yes">Menu</property>
             <child>
               <object class="GtkMenuItem" id="first_gtk_menu_file_item_main_window">
                 <property name="name">first_gtk_menu_file_item_main_window</property>
@@ -174,13 +175,14 @@
                     <property name="name">first_gtk_sumenu_file_db_main_window</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="tooltip-text" translatable="yes">Sumenu</property>
+                    <property name="tooltip-text" translatable="yes">Menu</property>
                     <child>
                       <object class="GtkImageMenuItem" id="first_gtk_image_menu_db_file">
                         <property name="label" translatable="yes">_Create DB</property>
                         <property name="name">first_gtk_image_menu_db_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Create DB</property>
                         <property name="use-underline">True</property>
                         <property name="image">image2</property>
                         <property name="use-stock">False</property>
@@ -192,6 +194,7 @@
                         <property name="name">second_gtk_image_menu_db_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Delete DB</property>
                         <property name="use-underline">True</property>
                         <property name="image">image6</property>
                         <property name="use-stock">False</property>
@@ -211,7 +214,7 @@
                         <property name="name">fourth_gtk_image_menu_db_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">Exit</property>
+                        <property name="tooltip-text" translatable="yes">The last entry in the Database</property>
                         <property name="use-underline">True</property>
                         <property name="image">image7</property>
                         <property name="use-stock">False</property>
@@ -223,6 +226,7 @@
                         <property name="name">fifth_gtk_image_menu_db_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">The last ten entries from the database</property>
                         <property name="use-underline">True</property>
                         <property name="image">image8</property>
                         <property name="use-stock">False</property>
@@ -234,6 +238,7 @@
                         <property name="name">sixth_gtk_image_menu_db_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Uploading to CSV</property>
                         <property name="use-underline">True</property>
                         <property name="image">image9</property>
                         <property name="use-stock">False</property>
@@ -245,6 +250,7 @@
                         <property name="name">seventh_gtk_image_menu_db_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Delete the last record from the database</property>
                         <property name="use-underline">True</property>
                         <property name="image">image10</property>
                         <property name="use-stock">False</property>
@@ -256,6 +262,7 @@
                         <property name="name">eighth_gtk_image_menu_db_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Delete the last 10 records from the database</property>
                         <property name="use-underline">True</property>
                         <property name="image">image11</property>
                         <property name="use-stock">False</property>
@@ -267,6 +274,7 @@
                         <property name="name">ninth_gtk_image_menu_db_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Clear the database</property>
                         <property name="use-underline">True</property>
                         <property name="image">image12</property>
                         <property name="use-stock">False</property>
@@ -281,7 +289,7 @@
                 <property name="name">first_gtk_menu_other_item_main_window</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="tooltip-text" translatable="yes">Other</property>
+                <property name="tooltip-text" translatable="yes">The others</property>
                 <property name="label" translatable="yes">_Other</property>
                 <property name="use-underline">True</property>
                 <child type="submenu">
@@ -296,7 +304,7 @@
                         <property name="name">fifth_gtk_image_menu_item_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="tooltip-text" translatable="yes">About</property>
+                        <property name="tooltip-text" translatable="yes">Information about the program</property>
                         <property name="use-underline">True</property>
                         <property name="image">image5</property>
                         <property name="use-stock">False</property>
@@ -369,7 +377,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Download the counting data to a file</property>
+                <property name="tooltip-text" translatable="yes">Make a record in the database</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -405,7 +413,7 @@
   <object class="GtkDialog" id="second_application_window">
     <property name="name">second_application_window</property>
     <property name="can-focus">False</property>
-    <property name="tooltip-text" translatable="yes">Error</property>
+    <property name="tooltip-text" translatable="yes">Message window</property>
     <property name="default-width">350</property>
     <property name="default-height">250</property>
     <property name="type-hint">dialog</property>
@@ -448,7 +456,7 @@
             <property name="name">first_gtk_label_second_main</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="tooltip-text" translatable="yes">Error text</property>
+            <property name="tooltip-text" translatable="yes">Information message</property>
             <property name="label" translatable="yes">Text error</property>
             <attributes>
               <attribute name="font-desc" value="Sans 14"/>

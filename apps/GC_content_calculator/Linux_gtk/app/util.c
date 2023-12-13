@@ -5,7 +5,9 @@
 
 #define NUMBER_OF_NUCLEOTIDES 5
 
-
+int callback_table_check(void *data, int argc, char **argv, char **azColName); // For checking for a table
+int table_exists(const char *table_name, const char *db_path); // Checking for a table
+int has_text(TObject *text_struct); // Checking for text
 int get_total_records(const char *table_name, const char *db_path); // Are there any rows in the table
 void exit_the_window(GtkWidget *menu_item, gpointer user_data); // Exit the window
 void init_struct(TObject *text_struct); // Basic initialization of the structure
@@ -25,6 +27,7 @@ void init_struct(TObject *text_struct)
 {   // Basic initialization of the structure
 
     text_struct->path_to_db = "../DB/DB.db";
+    text_struct->table_name = "atgcu";
     text_struct->length_dna = 0;
     text_struct->length_ATGCU = 0;
     text_struct->gc_content = 0;
@@ -95,6 +98,15 @@ int check_elem_interface(GObject *element, char *element_name)
 {   // Checking for the absence of an interface element
 
     if (element == NULL) {
+        char check_elem_error[256];
+        snprintf(
+            check_elem_error, sizeof(check_elem_error),
+            "Error!\n"
+            "The '%s' object could not be "
+            "found\n in the interface file.",
+            element_name
+        );
+        error_message(&check_elem_error);
         g_error(
             "The '%s' object could not be "
             "found in the interface file.",
@@ -116,6 +128,7 @@ int get_total_records(const char *table_name, const char *db_path)
             "Error: \n%s",
             sqlite3_errmsg(db)
         );
+        error_message(&db_error);
         sqlite3_close(db);
         return;
     }
@@ -142,3 +155,63 @@ int get_total_records(const char *table_name, const char *db_path)
     return total_records;
 }
 
+int has_text(TObject *text_struct)
+{   // Checking for text
+
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_struct->text_field));
+    GtkTextIter start, end;
+    gtk_text_buffer_get_start_iter(buffer, &start);
+    gtk_text_buffer_get_end_iter(buffer, &end);
+    gchar *text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+    return strlen(text);
+}
+
+int callback_table_check(void *data, int argc, char **argv, char **azColName)
+{   // For checking for a table
+
+    int *result = (int *)data;
+    if (argc > 0) {
+        *result = atoi(argv[0]);
+    }
+    return 0;
+}
+
+int table_exists(const char *table_name, const char *db_path)
+{   // Checking for a table
+
+    sqlite3 *db;
+    if (sqlite3_open(db_path, &db) != SQLITE_OK) {
+        char db_error[256];
+        snprintf(
+            db_error, sizeof(db_error),
+            "Error: \n%s",
+            sqlite3_errmsg(db)
+        );
+        error_message(&db_error);
+        sqlite3_close(db);
+        return;
+    }
+
+    char sql[512];
+    snprintf(
+        sql, sizeof(sql),
+        "SELECT count(name) FROM sqlite_master "
+        "WHERE type='table' AND name='%s'",
+        table_name
+    );
+
+    int result = 0;
+    if (sqlite3_exec(db, sql, callback_table_check, &result, NULL) != SQLITE_OK) {
+        char db_error[256];
+        snprintf(
+            db_error, sizeof(db_error),
+            "Error: \n%s",
+            sqlite3_errmsg(db)
+        );
+        error_message(&db_error);
+        sqlite3_close(db);
+        return;
+    }
+    sqlite3_close(db);
+    return result;
+}

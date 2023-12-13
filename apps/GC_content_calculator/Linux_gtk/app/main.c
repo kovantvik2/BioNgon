@@ -13,7 +13,6 @@ int main(int argc, char *argv[])
 {
     TObject text_struct;
     init_struct(&text_struct);
-    text_struct.check_txt_field = 0;
 
     gtk_init(&argc, &argv);
     GtkBuilder *builder = gtk_builder_new();
@@ -208,6 +207,36 @@ int main(int argc, char *argv[])
     g_signal_connect(
         button_menu_clear, "activate",
         G_CALLBACK(clear_text_field),  &text_struct
+    );
+
+    // Uploading the database to csv
+    char button_menu_upload_name[] = "sixth_gtk_image_menu_db_file";
+    GObject *button_menu_upload_object = (
+        gtk_builder_get_object(builder, button_menu_upload_name)
+    );
+    check_elem_interface(
+        button_menu_upload_object,
+        &button_menu_upload_name
+    );
+    GtkWidget *button_menu_upload = GTK_WIDGET(button_menu_upload_object);
+    g_signal_connect(
+        button_menu_upload, "activate",
+        G_CALLBACK(uploading_database), &text_struct
+    );
+
+    // Delete last iteration
+    char button_menu_del_last_iter_name[] = "seventh_gtk_image_menu_db_file";
+    GObject *button_menu_del_last_iter_object = (
+        gtk_builder_get_object(builder, button_menu_del_last_iter_name)
+    );
+    check_elem_interface(
+        button_menu_del_last_iter_object,
+        &button_menu_del_last_iter_name
+    );
+    GtkWidget *button_menu_del_last_iter = GTK_WIDGET(button_menu_del_last_iter_object);
+    g_signal_connect(
+        button_menu_del_last_iter, "activate",
+        G_CALLBACK(delete_last_iteration), &text_struct
     );
 
 

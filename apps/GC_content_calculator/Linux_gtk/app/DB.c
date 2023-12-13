@@ -9,6 +9,9 @@
 #include "sqlite3.h"
 
 
+void delete_last_iteration(GtkWidget *widget, TObject *text_struct); // Delete last iteration
+int callback_db(void *data, int argc, char **argv, char **azColName); // For uploading the database to csv
+void uploading_database(GtkWidget *widget, TObject *text_struct); // Uploading the database to csv
 void append_result_to_string(sqlite3_stmt *stmt, GString *result); // Append result to string
 void update_text_view_buffer(GtkWidget *text_view, const gchar *text); // Update text view buffer
 void last_ten_iter(GtkWidget *widget,  TObject *text_struct); // Output the 10 last iterations
@@ -35,8 +38,18 @@ void last_ten_iter(GtkWidget *widget,  TObject *text_struct)
         return;
     }
 
-    char table_name[] = "atgcu";
-    if (get_total_records(&table_name, text_struct->path_to_db) < 1) {
+    if (table_exists(text_struct->table_name, text_struct->path_to_db) < 1) {
+        char db_error[256];
+            snprintf(
+                db_error, sizeof(db_error),
+                "The table is missing -'%s'",
+                text_struct->table_name
+            );
+        error_message(&db_error);
+        return;
+    }
+
+    if (get_total_records(text_struct->table_name, text_struct->path_to_db) < 1) {
         char db_dowload_error[] = (
             "There is not a single row in the table."
         );
@@ -52,6 +65,7 @@ void last_ten_iter(GtkWidget *widget,  TObject *text_struct)
             "Error: \n%s",
             sqlite3_errmsg(db)
         );
+        error_message(&db_error);
         sqlite3_close(db);
         return;
     }
@@ -59,30 +73,23 @@ void last_ten_iter(GtkWidget *widget,  TObject *text_struct)
     char sql[512];
     snprintf(
         sql, sizeof(sql),
-        "SELECT "
-        "hour, "
-        "minute, "
-        "day, "
-        "month,"
-        "year, "
-        "a_count, "
-        "g_count, "
-        "c_count, "
-        "t_count, "
-        "u_count, "
-        "a_percent, "
-        "g_percent, "
-        "c_percent, "
-        "t_percent, "
-        "u_percent, "
+        "SELECT hour, "
+        "minute, day, "
+        "month,year, "
+        "a_count, g_count, "
+        "c_count, t_count, "
+        "u_count, a_percent, "
+        "g_percent, c_percent, "
+        "t_percent, u_percent, "
         "Total_number_of_characters, "
         "Number_of_ATGCU, "
         "Other_characters, "
         "Number_of_GC_content_in_characters, "
         "Number_of_GC_content_in_percent "
-        "FROM atgcu "
+        "FROM %s "
         "ORDER BY id DESC "
-        "LIMIT 10"
+        "LIMIT 10",
+        text_struct->table_name
     );
 
     text_struct->result = g_string_new(NULL);
@@ -114,6 +121,7 @@ void last_ten_iter(GtkWidget *widget,  TObject *text_struct)
             sqlite3_errmsg(db)
         );
         error_message(&db_error);
+        return;
     }
 
     sqlite3_finalize(stmt);
@@ -264,8 +272,18 @@ void last_iter(GtkWidget *widget,  TObject *text_struct)
         return;
     }
 
-    char table_name[] = "atgcu";
-    if (get_total_records(&table_name, text_struct->path_to_db) < 1) {
+    if (table_exists(text_struct->table_name, text_struct->path_to_db) < 1) {
+        char db_error[256];
+            snprintf(
+                db_error, sizeof(db_error),
+                "The table is missing -'%s'",
+                text_struct->table_name
+            );
+        error_message(&db_error);
+        return;
+    }
+
+    if (get_total_records(text_struct->table_name, text_struct->path_to_db) < 1) {
         char db_dowload_error[] = (
             "There is not a single row in the table."
         );
@@ -281,6 +299,7 @@ void last_iter(GtkWidget *widget,  TObject *text_struct)
             "Error: \n%s",
             sqlite3_errmsg(db)
         );
+        error_message(&db_error);
         sqlite3_close(db);
         return;
     }
@@ -288,30 +307,23 @@ void last_iter(GtkWidget *widget,  TObject *text_struct)
     char sql[512];
     snprintf(
         sql, sizeof(sql),
-        "SELECT "
-        "hour, "
-        "minute, "
-        "day, "
-        "month,"
-        "year, "
-        "a_count, "
-        "g_count, "
-        "c_count, "
-        "t_count, "
-        "u_count, "
-        "a_percent, "
-        "g_percent, "
-        "c_percent, "
-        "t_percent, "
-        "u_percent, "
+        "SELECT hour, "
+        "minute, day, "
+        "month, year, "
+        "a_count, g_count, "
+        "c_count, t_count, "
+        "u_count, a_percent, "
+        "g_percent, c_percent, "
+        "t_percent, u_percent, "
         "Total_number_of_characters, "
         "Number_of_ATGCU, "
         "Other_characters, "
         "Number_of_GC_content_in_characters, "
         "Number_of_GC_content_in_percent "
-        "FROM atgcu "
+        "FROM %s "
         "ORDER BY id DESC "
-        "LIMIT 1"
+        "LIMIT 1",
+        text_struct->table_name
     );
 
     text_struct->result = g_string_new(NULL);
@@ -324,6 +336,7 @@ void last_iter(GtkWidget *widget,  TObject *text_struct)
             sqlite3_errmsg(db)
         );
         error_message(&db_error);
+        sqlite3_close(db);
         return;
     }
     sqlite3_close(db);
@@ -337,6 +350,17 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
             "The database is missing."
         );
         error_message(&db_dowload_error);
+        return;
+    }
+
+    if (table_exists(text_struct->table_name, text_struct->path_to_db) < 1) {
+        char db_error[256];
+            snprintf(
+                db_error, sizeof(db_error),
+                "The table is missing -'%s'",
+                text_struct->table_name
+            );
+        error_message(&db_error);
         return;
     }
 
@@ -404,6 +428,7 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
             "Error: \n%s",
             sqlite3_errmsg(db)
         );
+        error_message(&db_error);
         sqlite3_close(db);
         g_free(text);
         return;
@@ -412,7 +437,7 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
     char sql[512];
     snprintf(
         sql, sizeof(sql),
-        "INSERT INTO atgcu ("
+        "INSERT INTO %s ("
             "hour, minute, day, month, year, "
             "a_count, u_count, g_count, c_count, t_count, "
             "a_percent, u_percent, g_percent, c_percent, t_percent, "
@@ -421,11 +446,12 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
         ") "
         "VALUES ("
             "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"
-        ")"
+        ")",
+        text_struct->table_name
     );
 
     sqlite3_stmt *stmt;
-    int rc =sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     if (rc != SQLITE_OK) {
         char db_error[256];
         snprintf(
@@ -509,7 +535,6 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
     }
 
     sqlite3_finalize(stmt);
-
     sqlite3_close(db);
     g_free(text);
 }
@@ -547,7 +572,6 @@ void delete_db(GtkWidget *widget, TObject *text_struct)
     }
 }
 
-
 gboolean create_db_callback(gpointer user_data)
 {   // Create DB
 
@@ -565,42 +589,42 @@ gboolean create_db_callback(gpointer user_data)
             sqlite3_errmsg(db)
         );
         error_message(&db_error);
+        return;
     }
     else {
         char *err_msg = 0;
-        char *sql = (
-            "CREATE TABLE atgcu ("
-            "id INTEGER PRIMARY KEY,"
-            "hour TEXT,"
-            "minute TEXT,"
-            "day TEXT,"
-            "month TEXT,"
-            "year TEXT,"
-            "a_count TEXT,"
-            "g_count TEXT,"
-            "c_count TEXT,"
-            "t_count TEXT,"
-            "u_count TEXT,"
-            "a_percent TEXT,"
-            "g_percent TEXT,"
-            "c_percent TEXT,"
-            "t_percent TEXT,"
-            "u_percent TEXT,"
-            "Total_number_of_characters TEXT,"
-            "Number_of_ATGCU TEXT,"
-            "Other_characters TEXT,"
-            "Number_of_GC_content_in_characters TEXT,"
-            "Number_of_GC_content_in_percent TEXT)"
+        char sql[512];
+        snprintf(
+            sql, sizeof(sql),
+            "CREATE TABLE %s ("
+            "id INTEGER PRIMARY KEY, "
+            "hour TEXT, minute TEXT, "
+            "day TEXT, month TEXT, "
+            "year TEXT, a_count TEXT, "
+            "g_count TEXT, c_count TEXT, "
+            "t_count TEXT, u_count TEXT, "
+            "a_percent TEXT, g_percent TEXT, "
+            "c_percent TEXT, t_percent TEXT, "
+            "u_percent TEXT, "
+            "Total_number_of_characters TEXT, "
+            "Number_of_ATGCU TEXT, "
+            "Other_characters TEXT, "
+            "Number_of_GC_content_in_characters TEXT, "
+            "Number_of_GC_content_in_percent TEXT)",
+            text_struct_c->table_name
         );
         rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
         if (rc != SQLITE_OK) {
             char db_error[256];
             snprintf(
                 db_error, sizeof(db_error),
-                "The table was not created: \n%s",
+                "The table %s was not created: \n%s",
+                text_struct_c->table_name,
                 err_msg
             );
+            remove(text_struct_c->path_to_db);
             error_message(&db_error);
+            return;
         }
         char create_db_mess[] = "The database has been created";
         error_message(&create_db_mess);
@@ -631,4 +655,141 @@ void create_db(GtkWidget *widget, TObject *text_struct)
     else {
         g_idle_add(create_db_callback, text_struct);
     }
+}
+
+int callback_db(void *data, int argc, char **argv, char **azColName)
+{   // For uploading the database to csv
+
+    TObject *text_struct = (TObject *)data;
+
+    if (text_struct->headers_print_csv == 0) {
+        for (int i = 0; i < argc; i++) {
+            fprintf(text_struct->file_write_data, "%s", azColName[i]);
+            if (i < argc - 1) {
+                fprintf(text_struct->file_write_data, ", ");
+            }
+        }
+        fprintf(text_struct->file_write_data, "\n\n");
+        text_struct->headers_print_csv = 1;
+    }
+
+    for (int i = 0; i < argc; i++) {
+        fprintf(text_struct->file_write_data, "%s", argv[i]);
+        if (i < argc - 1) {
+            fprintf(text_struct->file_write_data, ", ");
+        }
+    }
+    fprintf(text_struct->file_write_data, "\n");
+
+    return 0;
+}
+
+void uploading_database(GtkWidget *widget, TObject *text_struct)
+{   // Uploading the database to csv
+
+    text_struct->headers_print_csv = 0;
+
+    if (access(text_struct->path_to_db, F_OK) == -1) {
+        char db_dowload_error[] = (
+            "The database is missing."
+        );
+        error_message(&db_dowload_error);
+        return;
+    }
+
+    if (table_exists(text_struct->table_name, text_struct->path_to_db) < 1) {
+        char db_error[256];
+            snprintf(
+                db_error, sizeof(db_error),
+                "The table is missing -'%s'",
+                text_struct->table_name
+            );
+        error_message(&db_error);
+        return;
+    }
+
+    if (get_total_records(text_struct->table_name, text_struct->path_to_db) < 1) {
+        char db_error[] = (
+            "There is not a single row in the table."
+        );
+        error_message(&db_error);
+        return;
+    }
+    else {
+        GtkWidget *dialog;
+        GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
+        gint res;
+
+        dialog = gtk_file_chooser_dialog_new(
+            "Save CSV File", GTK_WINDOW(gtk_widget_get_toplevel(widget)),
+            action,
+            "Save",
+            GTK_RESPONSE_ACCEPT,
+            "Cancel",
+            GTK_RESPONSE_CANCEL,
+            NULL
+        );
+
+        res = gtk_dialog_run(GTK_DIALOG(dialog));
+
+        if (res == GTK_RESPONSE_ACCEPT) {
+            text_struct->filename_save_as = gtk_file_chooser_get_filename(
+                GTK_FILE_CHOOSER(dialog)
+            );
+        }
+        else if (res == GTK_RESPONSE_CANCEL) {
+            text_struct->filename_save_as == NULL;
+            gtk_widget_destroy(dialog);
+            return;
+        }
+
+        if (text_struct->filename_save_as != NULL) {
+            text_struct->file_write_data = fopen(
+                text_struct->filename_save_as, "w+t"
+            );
+            if (text_struct->file_write_data != NULL) {
+                sqlite3 *db;
+                if (sqlite3_open(text_struct->path_to_db, &db) != SQLITE_OK) {
+                    char db_error[256];
+                    snprintf(
+                        db_error, sizeof(db_error),
+                        "Error: \n%s",
+                        sqlite3_errmsg(db)
+                    );
+                    error_message(&db_error);
+                    fclose(text_struct->file_write_data);
+                    sqlite3_close(db);
+                    return;
+                }
+
+                char sql[512];
+                snprintf(
+                    sql, sizeof(sql),
+                    "SELECT * FROM %s",
+                    text_struct->table_name
+                );
+                int rc;
+                rc = sqlite3_exec(db, sql, callback_db, text_struct, NULL);
+                if (rc != SQLITE_OK) {
+                    char db_error[256];
+                    snprintf(
+                        db_error, sizeof(db_error),
+                        "Error: \n%s",
+                        sqlite3_errmsg(db)
+                    );
+                    error_message(&db_error);
+                    fclose(text_struct->file_write_data);
+                    sqlite3_close(db);
+                    return;
+                }
+            }
+            fclose(text_struct->file_write_data);
+        }
+        gtk_widget_destroy(dialog);
+    }
+}
+
+void delete_last_iteration(GtkWidget *widget, TObject *text_struct)
+{   // Delete last iteration
+
 }

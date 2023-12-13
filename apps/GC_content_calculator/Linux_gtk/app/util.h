@@ -3,6 +3,10 @@
 #ifndef UTIL_H_INCLUDED
 #define UTIL_H_INCLUDED
 
+
+// Checking for a table
+int table_exists(const char *table_name, const char *db_path);
+
 // Are there any rows in the table
 int get_total_records(const char *table_name, const char *db_path);
 

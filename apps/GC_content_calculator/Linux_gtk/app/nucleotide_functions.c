@@ -88,7 +88,6 @@ void read_file(GtkWidget *widget, TObject *text_struct)
         free(text_struct->filename);
         text_struct->filename = NULL;
         init_struct(text_struct);
-        text_struct->check_txt_field = 1;
     }
     else if (text_struct->filename == NULL) {
         char error_read_file[] = "No file is selected.";

@@ -4,7 +4,7 @@
 #include "structures.h"
 #include "util.h"
 
-int has_text(TObject *text_struct); // Checking for text
+
 void open_file(GtkWidget *widget, TObject *text_struct); // Open the data file
 void save_file(GtkWidget *widget, TObject *text_struct); // Save file
 void clear_text_field(GtkWidget *widget, TObject *text_struct); // To clear the text field
@@ -50,16 +50,6 @@ void open_file(GtkWidget *widget, TObject *text_struct)
     gtk_widget_destroy(dialog);
 }
 
-int has_text(TObject *text_struct)
-{   // Checking for text
-
-    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_struct->text_field));
-    GtkTextIter start, end;
-    gtk_text_buffer_get_start_iter(buffer, &start);
-    gtk_text_buffer_get_end_iter(buffer, &end);
-    gchar *text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
-    return strlen(text);
-}
 
 void save_file(GtkWidget *widget, TObject *text_struct)
 {   // Save file
@@ -91,7 +81,6 @@ void save_file(GtkWidget *widget, TObject *text_struct)
             gtk_widget_destroy(dialog);
             return;
         }
-
 
         if (text_struct->filename_save_as != NULL) {
             text_struct->file_write_data = fopen(

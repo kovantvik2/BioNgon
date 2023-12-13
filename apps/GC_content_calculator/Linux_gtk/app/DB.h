@@ -6,6 +6,8 @@
 #ifndef DB_H_INCLUDED
 #define DB_H_INCLUDED
 
+// Uploading the database to csv
+void uploading_database(GtkWidget *widget, TObject *text_struct);
 
 // Output the 10 last iterations
 void last_ten_iter(GtkWidget *widget,  TObject *text_struct);
