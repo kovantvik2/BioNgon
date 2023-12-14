@@ -6,6 +6,12 @@
 #ifndef DB_H_INCLUDED
 #define DB_H_INCLUDED
 
+// Clear DB
+void clear_db(GtkWidget *widget, TObject *text_struct);
+
+// Delete last 10 iterations
+void delete_ten_last_iteration(GtkWidget *widget, TObject *text_struct);
+
 // Delete last iteration
 void delete_last_iteration(GtkWidget *widget, TObject *text_struct);
 

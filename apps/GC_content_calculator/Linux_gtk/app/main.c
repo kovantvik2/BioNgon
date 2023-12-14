@@ -239,6 +239,35 @@ int main(int argc, char *argv[])
         G_CALLBACK(delete_last_iteration), &text_struct
     );
 
+    // Delete last 10 iterations
+    char button_menu_del_ten_last_iter_name[] = "eighth_gtk_image_menu_db_file";
+    GObject *button_menu_del_ten_last_iter_object = (
+        gtk_builder_get_object(builder, button_menu_del_ten_last_iter_name)
+    );
+    check_elem_interface(
+        button_menu_del_ten_last_iter_object,
+        &button_menu_del_ten_last_iter_name
+    );
+    GtkWidget *button_menu_del_ten_last_iter = GTK_WIDGET(button_menu_del_ten_last_iter_object);
+    g_signal_connect(
+        button_menu_del_ten_last_iter, "activate",
+        G_CALLBACK(delete_ten_last_iteration), &text_struct
+    );
+
+    // Clear DB
+    char button_menu_clear_db_name[] = "ninth_gtk_image_menu_db_file";
+    GObject *button_menu_clear_db_object = (
+        gtk_builder_get_object(builder, button_menu_clear_db_name)
+    );
+    check_elem_interface(
+        button_menu_clear_db_object,
+        &button_menu_clear_db_name
+    );
+    GtkWidget *button_menu_clear_db = GTK_WIDGET(button_menu_clear_db_object);
+    g_signal_connect(
+        button_menu_clear_db, "activate",
+        G_CALLBACK(clear_db), &text_struct
+    );
 
     // Start the GTK event loop
     gtk_main();

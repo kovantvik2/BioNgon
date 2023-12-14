@@ -10,6 +10,7 @@
 // Basic working structure
 typedef struct SObject {
     char *filename;
+    gchar *name_file;
     GtkWidget *text_field;
     FILE *file;
     long int length_dna;

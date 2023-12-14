@@ -234,7 +234,7 @@
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="sixth_gtk_image_menu_db_file">
-                        <property name="label" translatable="yes">_Upload to file</property>
+                        <property name="label" translatable="yes">_Upload to CSV</property>
                         <property name="name">sixth_gtk_image_menu_db_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>

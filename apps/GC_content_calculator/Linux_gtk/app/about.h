@@ -1,0 +1,6 @@
+#ifndef ABOUT_H_INCLUDED
+#define ABOUT_H_INCLUDED
+
+
+
+#endif // ABOUT_H_INCLUDED

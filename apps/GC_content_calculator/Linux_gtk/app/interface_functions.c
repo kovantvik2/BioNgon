@@ -34,6 +34,8 @@ void open_file(GtkWidget *widget, TObject *text_struct)
         text_struct->filename = g_strdup(
             gtk_file_chooser_get_filename(chooser)
         );
+        const gchar *filename_without_path = g_path_get_basename(text_struct->filename);
+        text_struct->name_file = g_strdup(filename_without_path);
     }
     if (text_struct->filename != NULL) {
         GtkTextBuffer *buffer = gtk_text_view_get_buffer(
@@ -41,15 +43,15 @@ void open_file(GtkWidget *widget, TObject *text_struct)
         );
         gtk_text_buffer_set_text(buffer, "", -1);
         gtk_text_buffer_insert_at_cursor(
-            buffer, "The path to the selected file:\n", -1
+            buffer, "The path to the selected file: ", -1
         );
+
         gtk_text_buffer_insert_at_cursor(
-            buffer, text_struct->filename, -1
+            buffer, text_struct->name_file, -1
         );
     }
     gtk_widget_destroy(dialog);
 }
-
 
 void save_file(GtkWidget *widget, TObject *text_struct)
 {   // Save file

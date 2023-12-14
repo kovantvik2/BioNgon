@@ -30,6 +30,14 @@ void read_file(GtkWidget *widget, TObject *text_struct)
             GTK_TEXT_VIEW(text_struct->text_field)
         );
         gtk_text_buffer_set_text(buffer, "", -1);
+
+        gtk_text_buffer_insert_at_cursor(
+            buffer, g_strdup_printf(
+                "Filename: %s\n\n",
+                text_struct->name_file
+            ),
+        -1);
+
         gtk_text_buffer_insert_at_cursor(
             buffer, g_strdup_printf(
                 "Date of processing:\n%02d:%02d - %02d.%02d.%d\n\n",
@@ -85,6 +93,8 @@ void read_file(GtkWidget *widget, TObject *text_struct)
 
         fclose(text_struct->file);
         text_struct->file = NULL;
+        free(text_struct->name_file);
+        text_struct->name_file = NULL;
         free(text_struct->filename);
         text_struct->filename = NULL;
         init_struct(text_struct);

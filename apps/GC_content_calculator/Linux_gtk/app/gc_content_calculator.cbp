@@ -35,6 +35,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="DB.h" />
+		<Unit filename="about.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="about.h" />
 		<Unit filename="interface_functions.c">
 			<Option compilerVar="CC" />
 		</Unit>
