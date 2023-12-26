@@ -119,7 +119,9 @@ void save_file(GtkWidget *widget, TObject *text_struct)
 void clear_text_field(GtkWidget *widget, TObject *text_struct)
 {   // To clear the text field
 
-    GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text_struct->text_field));
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer(
+        GTK_TEXT_VIEW(text_struct->text_field)
+    );
     gtk_text_buffer_set_text(buffer, "", -1);
 }
 

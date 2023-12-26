@@ -7,6 +7,7 @@
 #include "structures.h"
 #include "util.h"
 #include "DB.h"
+#include "about.h"
 
 
 int main(int argc, char *argv[])
@@ -16,7 +17,7 @@ int main(int argc, char *argv[])
 
     gtk_init(&argc, &argv);
     GtkBuilder *builder = gtk_builder_new();
-    gtk_builder_add_from_file(builder, "../interface/interface_en.glade", NULL);
+    gtk_builder_add_from_file(builder, "interface/interface_en.glade", NULL);
 
     // Processing the main window call
     char main_window_name[] = "main_application_window";
@@ -267,6 +268,21 @@ int main(int argc, char *argv[])
     g_signal_connect(
         button_menu_clear_db, "activate",
         G_CALLBACK(clear_db), &text_struct
+    );
+
+    // About the program
+    char button_menu_about_name[] = "first_gtk_image_menu_other_item_file";
+    GObject *button_menu_about_object = (
+        gtk_builder_get_object(builder, button_menu_about_name)
+    );
+    check_elem_interface(
+        button_menu_about_object,
+        &button_menu_about_name
+    );
+    GtkWidget *button_menu_about = GTK_WIDGET(button_menu_about_object);
+    g_signal_connect(
+        button_menu_about, "activate",
+        G_CALLBACK(about_program), &text_struct
     );
 
     // Start the GTK event loop

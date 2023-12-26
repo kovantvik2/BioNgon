@@ -234,7 +234,7 @@
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="sixth_gtk_image_menu_db_file">
-                        <property name="label" translatable="yes">_Upload to file</property>
+                        <property name="label" translatable="yes">_Upload to CSV</property>
                         <property name="name">sixth_gtk_image_menu_db_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -299,9 +299,9 @@
                     <property name="can-focus">False</property>
                     <property name="tooltip-text" translatable="yes">Sumenu</property>
                     <child>
-                      <object class="GtkImageMenuItem" id="fifth_gtk_image_menu_other_item_file">
+                      <object class="GtkImageMenuItem" id="first_gtk_image_menu_other_item_file">
                         <property name="label">_About</property>
-                        <property name="name">fifth_gtk_image_menu_item_file</property>
+                        <property name="name">first_gtk_image_menu_other_item_file</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="tooltip-text" translatable="yes">Information about the program</property>
