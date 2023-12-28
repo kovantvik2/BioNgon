@@ -4,10 +4,10 @@ FLAGS_OBJ = -c -Wall -Wextra `pkg-config --libs --cflags gtk+-3.0` -ldl -lpthrea
 FLAGS_BIN = `pkg-config --libs --cflags gtk+-3.0` -ldl -lpthread
 
 gc_content_calculator: main.o DB.o interface_functions.o nucleotide_functions.o sqlite3.o util.o about.o
-	mkdir -p gc_content_calculator && mkdir -p gc_content_calculator/release
+	mkdir -p gc_content_calculator
 	$(CC) -o bin/gc_content_calculator $(OBJ) $(FLAGS_BIN)
-	cp -r bin gc_content_calculator/release && cp -r interface gc_content_calculator
-	chmod +x gc_content_calculator/release/bin/gc_content_calculator
+	cp bin/gc_content_calculator gc_content_calculator && cp -r interface gc_content_calculator
+	chmod +x gc_content_calculator/gc_content_calculator
 	rm -r obj && rm -r bin
 	clear
 

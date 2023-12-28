@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <libgen.h>
 
 #include "structures.h"
 #include "sqlite3.h"
@@ -6,13 +7,13 @@
 #define NUMBER_OF_NUCLEOTIDES 5
 
 int callback_table_check(void *data, int argc, char **argv, char **azColName); // For checking for a table
-int table_exists(const char *table_name, const char *db_path); // Checking for a table
+int table_exists(const char *table_name, const char *db_path, TObject *text_struct); // Checking for a table
 int has_text(TObject *text_struct); // Checking for text
-int get_total_records(const char *table_name, const char *db_path); // Are there any rows in the table
+int get_total_records(const char *table_name, const char *db_path, TObject *text_struct); // Are there any rows in the table
 void exit_the_window(GtkWidget *menu_item, gpointer user_data); // Exit the window
 void init_struct(TObject *text_struct); // Basic initialization of the structure
-void error_message(char *error); // Displays an error window
-int check_elem_interface(GObject *element, char *element_name); // Checking for the absence of an interface element
+void error_message(char *error, TObject *text_struct); // Displays an error window
+int check_elem_interface(GObject *element, char *element_name, TObject *text_struct); // Checking for the absence of an interface element
 
 
 void exit_the_window(GtkWidget *menu_item, gpointer user_data)
@@ -26,7 +27,6 @@ void exit_the_window(GtkWidget *menu_item, gpointer user_data)
 void init_struct(TObject *text_struct)
 {   // Basic initialization of the structure
 
-    text_struct->path_to_db = "../DB/DB.db";
     text_struct->table_name = "atgcu";
     text_struct->length_dna = 0;
     text_struct->length_ATGCU = 0;
@@ -41,18 +41,18 @@ void init_struct(TObject *text_struct)
 }
 
 
-void error_message(char *error)
+void error_message(char *error,  TObject *text_struct)
 {   // Displays an error window
 
     GtkBuilder *second_builder = gtk_builder_new();
-    gtk_builder_add_from_file(second_builder, "../interface/interface_en.glade", NULL);
+    gtk_builder_add_from_file(second_builder, text_struct->path_to_interface, NULL);
 
     // Processing the second window call
     char second_window_name[] = "second_application_window";
     GObject *second_window_object = gtk_builder_get_object(
         second_builder, second_window_name
     );
-    check_elem_interface(second_window_object, &second_window_name);
+    check_elem_interface(second_window_object, &second_window_name, text_struct);
     GtkWidget *second_window = GTK_WIDGET(second_window_object);
 
     char second_window_title[] = "Service message";
@@ -68,7 +68,8 @@ void error_message(char *error)
     );
     check_elem_interface(
         error_label_object,
-        &error_label_name
+        &error_label_name,
+        text_struct
     );
     GtkWidget *error_label = GTK_WIDGET(error_label_object);
     gtk_label_set_text(GTK_LABEL(error_label), error);
@@ -80,7 +81,8 @@ void error_message(char *error)
     );
     check_elem_interface(
         button_object_exit_the_program,
-        &button_exit_the_program_name
+        &button_exit_the_program_name,
+        text_struct
     );
     GtkWidget *button_exit_the_program = GTK_WIDGET(
         button_object_exit_the_program
@@ -94,7 +96,7 @@ void error_message(char *error)
 }
 
 
-int check_elem_interface(GObject *element, char *element_name)
+int check_elem_interface(GObject *element, char *element_name, TObject *text_struct)
 {   // Checking for the absence of an interface element
 
     if (element == NULL) {
@@ -106,7 +108,7 @@ int check_elem_interface(GObject *element, char *element_name)
             "found\n in the interface file.",
             element_name
         );
-        error_message(&check_elem_error);
+        error_message(&check_elem_error, text_struct);
         g_error(
             "The '%s' object could not be "
             "found in the interface file.",
@@ -117,7 +119,7 @@ int check_elem_interface(GObject *element, char *element_name)
     return 0;
 }
 
-int get_total_records(const char *table_name, const char *db_path)
+int get_total_records(const char *table_name, const char *db_path, TObject *text_struct)
 {   // Are there any rows in the table
 
     sqlite3 *db;
@@ -128,7 +130,7 @@ int get_total_records(const char *table_name, const char *db_path)
             "Error: \n%s",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         return;
     }
@@ -176,7 +178,7 @@ int callback_table_check(void *data, int argc, char **argv, char **azColName)
     return 0;
 }
 
-int table_exists(const char *table_name, const char *db_path)
+int table_exists(const char *table_name, const char *db_path, TObject *text_struct)
 {   // Checking for a table
 
     sqlite3 *db;
@@ -187,7 +189,7 @@ int table_exists(const char *table_name, const char *db_path)
             "Error: \n%s",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         return;
     }
@@ -208,7 +210,7 @@ int table_exists(const char *table_name, const char *db_path)
             "Error: \n%s",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         return;
     }

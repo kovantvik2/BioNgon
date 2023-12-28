@@ -5,7 +5,7 @@
 
 #define NUMBER_OF_NUCLEOTIDES 5 // Number of nucleotides
 #define BUFFER_SIZE 8192 // BufferBuffer size
-
+#define size_path 1024
 
 // Basic working structure
 typedef struct SObject {
@@ -28,6 +28,8 @@ typedef struct SObject {
     GString *result;
     int headers_print_csv;
     char *table_name;
+    char path_to_interface[size_path];
+    char path_to_db_dir[size_path];
 } TObject;
 
 #endif // STRUCTURES_H_INCLUDED

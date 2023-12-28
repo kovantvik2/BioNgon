@@ -107,7 +107,7 @@ void save_file(GtkWidget *widget, TObject *text_struct)
     }
     else {
         char error_read_file[] = "There is nothing to save.";
-        error_message(&error_read_file);
+        error_message(&error_read_file, text_struct);
         return;
     }
 

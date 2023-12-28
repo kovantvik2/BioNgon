@@ -35,26 +35,26 @@ void last_ten_iter(GtkWidget *widget,  TObject *text_struct)
         char db_dowload_error[] = (
             "The database is missing."
         );
-        error_message(&db_dowload_error);
+        error_message(&db_dowload_error, text_struct);
         return;
     }
 
-    if (table_exists(text_struct->table_name, text_struct->path_to_db) < 1) {
+    if (table_exists(text_struct->table_name, text_struct->path_to_db, text_struct) < 1) {
         char db_error[256];
             snprintf(
                 db_error, sizeof(db_error),
                 "The table is missing -'%s'",
                 text_struct->table_name
             );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         return;
     }
 
-    if (get_total_records(text_struct->table_name, text_struct->path_to_db) < 1) {
+    if (get_total_records(text_struct->table_name, text_struct->path_to_db, text_struct) < 1) {
         char db_dowload_error[] = (
             "There is not a single row in the table."
         );
-        error_message(&db_dowload_error);
+        error_message(&db_dowload_error, text_struct);
         return;
     }
 
@@ -66,7 +66,7 @@ void last_ten_iter(GtkWidget *widget,  TObject *text_struct)
             "Error: \n%s",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         return;
     }
@@ -106,7 +106,7 @@ void last_ten_iter(GtkWidget *widget,  TObject *text_struct)
             "Error preparing statement:\n %s",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         return;
     }
@@ -122,7 +122,7 @@ void last_ten_iter(GtkWidget *widget,  TObject *text_struct)
             "Error executing statement: \n%s",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         return;
     }
 
@@ -136,7 +136,7 @@ void last_ten_iter(GtkWidget *widget,  TObject *text_struct)
         text_struct->result = NULL;
     } else {
         char update_error[] = "Error when displaying the result.";
-        error_message(&update_error);
+        error_message(&update_error, text_struct);
     }
 }
 
@@ -260,7 +260,7 @@ gboolean update_ui(gpointer user_data)
     }
     else {
         char update_error[] = "Error when displaying the result.";
-        error_message(&update_error);
+        error_message(&update_error, text_struct);
     }
 
     return G_SOURCE_REMOVE;
@@ -274,26 +274,26 @@ void last_iter(GtkWidget *widget,  TObject *text_struct)
         char db_dowload_error[] = (
             "The database is missing."
         );
-        error_message(&db_dowload_error);
+        error_message(&db_dowload_error, text_struct);
         return;
     }
 
-    if (table_exists(text_struct->table_name, text_struct->path_to_db) < 1) {
+    if (table_exists(text_struct->table_name, text_struct->path_to_db, text_struct) < 1) {
         char db_error[256];
             snprintf(
                 db_error, sizeof(db_error),
                 "The table is missing -'%s'",
                 text_struct->table_name
             );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         return;
     }
 
-    if (get_total_records(text_struct->table_name, text_struct->path_to_db) < 1) {
+    if (get_total_records(text_struct->table_name, text_struct->path_to_db, text_struct) < 1) {
         char db_dowload_error[] = (
             "There is not a single row in the table."
         );
-        error_message(&db_dowload_error);
+        error_message(&db_dowload_error, text_struct);
         return;
     }
 
@@ -305,7 +305,7 @@ void last_iter(GtkWidget *widget,  TObject *text_struct)
             "Error: \n%s",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         return;
     }
@@ -342,7 +342,7 @@ void last_iter(GtkWidget *widget,  TObject *text_struct)
             "SQL error: %s\n",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         return;
     }
@@ -356,18 +356,18 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
         char db_dowload_error[] = (
             "The database is missing."
         );
-        error_message(&db_dowload_error);
+        error_message(&db_dowload_error, text_struct);
         return;
     }
 
-    if (table_exists(text_struct->table_name, text_struct->path_to_db) < 1) {
+    if (table_exists(text_struct->table_name, text_struct->path_to_db, text_struct) < 1) {
         char db_error[256];
             snprintf(
                 db_error, sizeof(db_error),
                 "The table is missing -'%s'",
                 text_struct->table_name
             );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         return;
     }
 
@@ -426,7 +426,7 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
             "write to the database.",
             result
         );
-        error_message(&count_error);
+        error_message(&count_error, text_struct);
         return;
     }
 
@@ -438,7 +438,7 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
             "Error: \n%s",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         g_free(text);
         return;
@@ -470,7 +470,7 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
             "Error prepraring stateement:\n %s",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         g_free(text);
         return;
@@ -533,7 +533,7 @@ void download_db(GtkWidget *widget,  TObject *text_struct)
             "Error executing statement: \n%s",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         return;
     }
     else {
@@ -558,11 +558,11 @@ gboolean delete_db_callback(gpointer user_data)
 
     if (remove(text_struct_c->path_to_db) == 0) {
         char db_delete_info[] = "The database has been deleted";
-        error_message(&db_delete_info);
+        error_message(&db_delete_info, text_struct_c);
     }
     else {
         char db_delete_error[] = "The database could not be deleted";
-        error_message(&db_delete_error);
+        error_message(&db_delete_error, text_struct_c);
     }
 
     return G_SOURCE_REMOVE;
@@ -580,7 +580,7 @@ void delete_db(GtkWidget *widget, TObject *text_struct)
             "There is no such database, "
             "there is nothing to delete"
         );
-        error_message(&db_delete_error);
+        error_message(&db_delete_error, text_struct);
     }
 }
 
@@ -600,7 +600,7 @@ gboolean create_db_callback(gpointer user_data)
             "Cannot create database: \n%s",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct_c);
         return;
     }
     else {
@@ -636,11 +636,11 @@ gboolean create_db_callback(gpointer user_data)
                 err_msg
             );
             remove(text_struct_c->path_to_db);
-            error_message(&db_error);
+            error_message(&db_error, text_struct_c);
             return;
         }
         char create_db_mess[] = "The database has been created";
-        error_message(&create_db_mess);
+        error_message(&create_db_mess, text_struct_c);
     }
 
     sqlite3_close(db);
@@ -652,18 +652,16 @@ gboolean create_db_callback(gpointer user_data)
 void create_db(GtkWidget *widget, TObject *text_struct)
 {   // Create DB
 
-    char dir_name_db[] = "../DB";
-
-    if (access(dir_name_db, F_OK) == -1) {
-        if (mkdir(dir_name_db, 0777) == -1) {
+    if (access(text_struct->path_to_db_dir, F_OK) == -1) {
+        if (mkdir(text_struct->path_to_db_dir, 0777) == -1) {
             char dir_error[] = "The directory has not been created";
-            error_message(&dir_error);
+            error_message(&dir_error, text_struct);
         }
     }
 
     if (access(text_struct->path_to_db, F_OK) != -1) {
         char db_error_alr[] = "The database already exists";
-        error_message(&db_error_alr);
+        error_message(&db_error_alr, text_struct);
     }
     else {
         g_idle_add(create_db_callback, text_struct);
@@ -706,26 +704,26 @@ void uploading_database(GtkWidget *widget, TObject *text_struct)
         char db_dowload_error[] = (
             "The database is missing."
         );
-        error_message(&db_dowload_error);
+        error_message(&db_dowload_error, text_struct);
         return;
     }
 
-    if (table_exists(text_struct->table_name, text_struct->path_to_db) < 1) {
+    if (table_exists(text_struct->table_name, text_struct->path_to_db, text_struct) < 1) {
         char db_error[256];
             snprintf(
                 db_error, sizeof(db_error),
                 "The table is missing -'%s'",
                 text_struct->table_name
             );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         return;
     }
 
-    if (get_total_records(text_struct->table_name, text_struct->path_to_db) < 1) {
+    if (get_total_records(text_struct->table_name, text_struct->path_to_db, text_struct) < 1) {
         char db_error[] = (
             "There is not a single row in the table."
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         return;
     }
     else {
@@ -769,7 +767,7 @@ void uploading_database(GtkWidget *widget, TObject *text_struct)
                         "Error: \n%s",
                         sqlite3_errmsg(db)
                     );
-                    error_message(&db_error);
+                    error_message(&db_error, text_struct);
                     fclose(text_struct->file_write_data);
                     sqlite3_close(db);
                     return;
@@ -790,7 +788,7 @@ void uploading_database(GtkWidget *widget, TObject *text_struct)
                         "Error: \n%s",
                         sqlite3_errmsg(db)
                     );
-                    error_message(&db_error);
+                    error_message(&db_error, text_struct);
                     fclose(text_struct->file_write_data);
                     sqlite3_close(db);
                     return;
@@ -809,26 +807,26 @@ void delete_last_iteration(GtkWidget *widget, TObject *text_struct)
         char db_dowload_error[] = (
             "The database is missing."
         );
-        error_message(&db_dowload_error);
+        error_message(&db_dowload_error, text_struct);
         return;
     }
 
-    if (table_exists(text_struct->table_name, text_struct->path_to_db) < 1) {
+    if (table_exists(text_struct->table_name, text_struct->path_to_db, text_struct) < 1) {
         char db_error[256];
             snprintf(
                 db_error, sizeof(db_error),
                 "The table is missing -'%s'",
                 text_struct->table_name
             );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         return;
     }
 
-    if (get_total_records(text_struct->table_name, text_struct->path_to_db) < 1) {
+    if (get_total_records(text_struct->table_name, text_struct->path_to_db, text_struct) < 1) {
         char db_error[] = (
             "There is not a single row in the table."
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         return;
     }
 
@@ -840,7 +838,7 @@ void delete_last_iteration(GtkWidget *widget, TObject *text_struct)
             "Error: \n%s",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         return;
     }
@@ -864,7 +862,7 @@ void delete_last_iteration(GtkWidget *widget, TObject *text_struct)
             "SQL error: %s\n",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         return;
     }
@@ -887,26 +885,26 @@ void delete_ten_last_iteration(GtkWidget *widget, TObject *text_struct)
         char db_dowload_error[] = (
             "The database is missing."
         );
-        error_message(&db_dowload_error);
+        error_message(&db_dowload_error, text_struct);
         return;
     }
 
-    if (table_exists(text_struct->table_name, text_struct->path_to_db) < 1) {
+    if (table_exists(text_struct->table_name, text_struct->path_to_db, text_struct) < 1) {
         char db_error[256];
             snprintf(
                 db_error, sizeof(db_error),
                 "The table is missing -'%s'",
                 text_struct->table_name
             );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         return;
     }
 
-    if (get_total_records(text_struct->table_name, text_struct->path_to_db) < 1) {
+    if (get_total_records(text_struct->table_name, text_struct->path_to_db, text_struct) < 1) {
         char db_error[] = (
             "There is not a single row in the table."
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         return;
     }
 
@@ -918,7 +916,7 @@ void delete_ten_last_iteration(GtkWidget *widget, TObject *text_struct)
             "Error: \n%s",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         return;
     }
@@ -942,7 +940,7 @@ void delete_ten_last_iteration(GtkWidget *widget, TObject *text_struct)
             "SQL error: %s\n",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         return;
     }
@@ -965,26 +963,26 @@ void clear_db(GtkWidget *widget, TObject *text_struct)
         char db_dowload_error[] = (
             "The database is missing."
         );
-        error_message(&db_dowload_error);
+        error_message(&db_dowload_error, text_struct);
         return;
     }
 
-    if (table_exists(text_struct->table_name, text_struct->path_to_db) < 1) {
+    if (table_exists(text_struct->table_name, text_struct->path_to_db, text_struct) < 1) {
         char db_error[256];
             snprintf(
                 db_error, sizeof(db_error),
                 "The table is missing -'%s'",
                 text_struct->table_name
             );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         return;
     }
 
-    if (get_total_records(text_struct->table_name, text_struct->path_to_db) < 1) {
+    if (get_total_records(text_struct->table_name, text_struct->path_to_db, text_struct) < 1) {
         char db_error[] = (
             "There is not a single row in the table."
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         return;
     }
 
@@ -996,7 +994,7 @@ void clear_db(GtkWidget *widget, TObject *text_struct)
             "Error: \n%s",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         return;
     }
@@ -1015,7 +1013,7 @@ void clear_db(GtkWidget *widget, TObject *text_struct)
             "SQL error: %s\n",
             sqlite3_errmsg(db)
         );
-        error_message(&db_error);
+        error_message(&db_error, text_struct);
         sqlite3_close(db);
         return;
     }
