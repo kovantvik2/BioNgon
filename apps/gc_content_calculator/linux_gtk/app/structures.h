@@ -1,11 +1,11 @@
 #include <gtk/gtk.h>
+#include <limits.h>
 
 #ifndef STRUCTURES_H_INCLUDED
 #define STRUCTURES_H_INCLUDED
 
 #define NUMBER_OF_NUCLEOTIDES 5 // Number of nucleotides
 #define BUFFER_SIZE 8192 // BufferBuffer size
-#define size_path 1024
 
 // Basic working structure
 typedef struct SObject {
@@ -24,12 +24,12 @@ typedef struct SObject {
     char buffer[BUFFER_SIZE];
     char *filename_save_as;
     char *file_write_data;
-    char *path_to_db;
+    char path_to_db[PATH_MAX];
     GString *result;
     int headers_print_csv;
-    char *table_name;
-    char path_to_interface[size_path];
-    char path_to_db_dir[size_path];
+    char table_name[32];
+    char path_to_interface[PATH_MAX];
+    char path_to_db_dir[PATH_MAX];
 } TObject;
 
 #endif // STRUCTURES_H_INCLUDED

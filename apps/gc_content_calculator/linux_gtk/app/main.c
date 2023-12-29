@@ -21,6 +21,12 @@ int main(int argc, char *argv[])
     char path[PATH_MAX];
 
     if (realpath(argv[0], path) != NULL) {
+
+        snprintf(
+            text_struct.table_name,
+            sizeof(text_struct.table_name),
+            "%s", "atgcu"
+        );
         char *path_to_top_dir = NULL;
 
         path_to_top_dir = strdup(dirname(path));
@@ -28,13 +34,14 @@ int main(int argc, char *argv[])
             perror("Error getting the absolute path to the folder!");
             return EXIT_FAILURE;
         }
+
         snprintf(
             text_struct.path_to_interface,
             sizeof(text_struct.path_to_interface),
             "%s/%s", path_to_top_dir, "interface/interface_en.glade"
         );
 
-        char path_to_db_dir[size_path];
+        char path_to_db_dir[PATH_MAX];
         snprintf(
             path_to_db_dir,
             sizeof(path_to_db_dir),
@@ -43,17 +50,13 @@ int main(int argc, char *argv[])
         strcpy(text_struct.path_to_db_dir, path_to_db_dir);
 
 
-        char path_to_db[size_path];
+        char path_to_db[PATH_MAX];
         snprintf(
             path_to_db,
             sizeof(path_to_db),
             "%s/%s", path_to_top_dir, "DB/DB.db"
         );
-        text_struct.path_to_db = strdup(path_to_db);
-        if (text_struct.path_to_db == NULL) {
-            perror("Error getting the absolute path to DB!");
-            return EXIT_FAILURE;
-        }
+        strcpy(text_struct.path_to_db, path_to_db);
 
         /* // You can uncomment for development on CodeBlocks
             //gtk_builder_add_from_file(builder, "interface/interface_en.glade", NULL);
@@ -98,7 +101,7 @@ int main(int argc, char *argv[])
         );
         check_elem_interface(
             button_object_exit_the_program,
-            &button_exit_the_program_name, 
+            &button_exit_the_program_name,
             &text_struct
         );
         GtkWidget *button_exit_the_program = GTK_WIDGET(button_object_exit_the_program);

@@ -27,7 +27,6 @@ void exit_the_window(GtkWidget *menu_item, gpointer user_data)
 void init_struct(TObject *text_struct)
 {   // Basic initialization of the structure
 
-    text_struct->table_name = "atgcu";
     text_struct->length_dna = 0;
     text_struct->length_ATGCU = 0;
     text_struct->gc_content = 0;
@@ -116,7 +115,7 @@ int check_elem_interface(GObject *element, char *element_name, TObject *text_str
         );
         return 1;
     }
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 int get_total_records(const char *table_name, const char *db_path, TObject *text_struct)
@@ -175,7 +174,7 @@ int callback_table_check(void *data, int argc, char **argv, char **azColName)
     if (argc > 0) {
         *result = atoi(argv[0]);
     }
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 int table_exists(const char *table_name, const char *db_path, TObject *text_struct)

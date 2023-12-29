@@ -692,7 +692,7 @@ int callback_db(void *data, int argc, char **argv, char **azColName)
     }
     fprintf(text_struct->file_write_data, "\n");
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 void uploading_database(GtkWidget *widget, TObject *text_struct)
