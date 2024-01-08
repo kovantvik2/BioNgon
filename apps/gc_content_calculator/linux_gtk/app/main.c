@@ -10,7 +10,7 @@
 #include "util.h"
 #include "DB.h"
 #include "about.h"
-
+#include "graph.h"
 
 int main(int argc, char *argv[])
 {   // Main function
@@ -58,13 +58,13 @@ int main(int argc, char *argv[])
         );
         strcpy(text_struct.path_to_db, path_to_db);
 
-        /* // You can uncomment for development on CodeBlocks
-            //gtk_builder_add_from_file(builder, "interface/interface_en.glade", NULL);
-        */
-
         gtk_init(&argc, &argv);
         GtkBuilder *builder = gtk_builder_new();
-        gtk_builder_add_from_file(builder, text_struct.path_to_interface, NULL);
+        //gtk_builder_add_from_file(builder, text_struct.path_to_interface, NULL);
+
+        // You can uncomment for development on CodeBlocks
+            gtk_builder_add_from_file(builder, "interface/interface_en.glade", NULL);
+
         free(path_to_top_dir);
 
         // Processing the main window call
@@ -348,6 +348,22 @@ int main(int argc, char *argv[])
         g_signal_connect(
             button_menu_about, "activate",
             G_CALLBACK(about_program), &text_struct
+        );
+
+        // Build a diagram
+        char button_menu_graph_name[] = "second_gtk_image_menu_other_item_file";
+        GObject *button_menu_graph_object = (
+            gtk_builder_get_object(builder, button_menu_graph_name)
+        );
+        check_elem_interface(
+            button_menu_about_object,
+            &button_menu_about_name,
+            &text_struct
+        );
+        GtkWidget *button_menu_graph = GTK_WIDGET(button_menu_graph_object);
+        g_signal_connect(
+            button_menu_graph, "activate",
+            G_CALLBACK(graph), &text_struct
         );
 
         // Start the GTK event loop
